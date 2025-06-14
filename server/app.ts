@@ -12,11 +12,13 @@ export const app = express();
 
 app.use(
   createRequestHandler({
+    // eslint-disable-next-line @typescript-eslint/@typescript-eslint/ban-ts-comment
+    // @ts-ignore
     build: () => import("virtual:react-router/server-build"),
     getLoadContext() {
       return {
         VALUE_FROM_EXPRESS: "Hello from Express",
       };
     },
-  }),
+  })
 );
