@@ -5,6 +5,8 @@ export type Card = {
   image: string;
 };
 
+export type Tabla = Card[];
+
 export const cards: Card[] = [
   {
     id: 1,

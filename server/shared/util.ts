@@ -1,4 +1,4 @@
-import { cards, type Card } from "./cards";
+import { cards, type Card, type Tabla } from "./cards";
 
 export function generateUniqueShortCode(): string {
   const length = 10;
@@ -19,7 +19,7 @@ export function getShuffleCards() {
   return array;
 }
 
-export function generateRandomTabla(): Card[] {
+export function generateRandomTabla(): Tabla {
   const shuffledCards = getShuffleCards();
   return shuffledCards.slice(0, 16);
 }

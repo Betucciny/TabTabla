@@ -5,6 +5,9 @@ import { getGame } from "~/.server/game";
 import { useEffect, useState } from "react";
 import { socket } from "~/client/socket";
 import type { GameStatus, PlayerStatus } from "@prisma/client";
+import type { Card } from "~/server/shared/cards";
+import ModalSelectTabla from "~/components/ModalSelectTabla";
+import TablaVisual from "~/components/TablaVisual";
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const session = await getSessionCookie(request.headers.get("Cookie"));
@@ -123,47 +126,92 @@ export default function Waiting({ loaderData }: Route.ComponentProps) {
     socket.timeout(5000).emit("game:start", { playerId });
   }
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCards, setSelectedCards] = useState<Card[]>([]);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleConfirmSelection = (cards: Card[]) => {
+    setSelectedCards(cards);
+    handleCloseModal();
+  };
+
   return (
-    <div>
-      <h1>
-        {gameState.gameStatus === "Waiting"
-          ? "Waiting for players..."
-          : "Game in progress"}
-      </h1>
-      <div>
-        <h2>Drawn Cards:</h2>
-        <ul>
-          {gameState.drawnCards.map((card, index) => (
-            <li key={index}>{card}</li>
-          ))}
-        </ul>
+    <div className="flex flex-col items-center">
+      <div className="flex flex-col items start p-4 max-w-[1920px]">
+        <h1
+          className="mb-8 animate-fade-in-down text-6xl font-bold
+                           [text-shadow:_2px_2px_4px_rgb(0_0_0_/_40%)]"
+        >
+          Lottery Tabla
+        </h1>
+        <button
+          onClick={handleOpenModal}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Select Tabla
+        </button>
+
+        {isModalOpen && (
+          <div className="fixed top-0 right-0 left-0 bg-gradient-to-br from-red-500 to-yellow-500 h-screen w-screen flex justify-center items-center z-50">
+            <ModalSelectTabla
+              onConfirm={handleConfirmSelection}
+              cancel={() => {
+                setIsModalOpen(false);
+              }}
+            />
+          </div>
+        )}
+
+        <div className="flex flex-col rounded relative z-10 lg:max-w-[33vw] md:max-w-[50vw] xl:max-w-[25vw]">
+          <TablaVisual cards={selectedCards} className="" />
+        </div>
+        <h1>
+          {gameState.gameStatus === "Waiting"
+            ? "Waiting for players..."
+            : "Game in progress"}
+        </h1>
+        <div>
+          <h2>Drawn Cards:</h2>
+          <ul>
+            {gameState.drawnCards.map((card, index) => (
+              <li key={index}>{card}</li>
+            ))}
+          </ul>
+        </div>
+        {gameState.gameStatus === "Waiting" && playerId === gameData.hostId && (
+          <div className="mt-6">
+            <button
+              onClick={onStart}
+              className="w-full rounded-lg bg-green-600 px-4 py-3 text-lg font-bold
+                               text-white transition duration-300 ease-in-out hover:bg-green-700
+                               hover:scale-105 transform"
+            >
+              Start Game
+            </button>
+          </div>
+        )}
+        {gameState.gameStatus === "Playing" && playerId === gameData.hostId && (
+          <div className="mt-6">
+            <button
+              onClick={() => {
+                socket.emit("game:takeCard");
+              }}
+              className="w-full rounded-lg bg-blue-600 px-4 py-3 text-lg font-bold
+                               text-white transition duration-300 ease-in-out hover:bg-blue-700
+                               hover:scale-105 transform"
+            >
+              Take a Card
+            </button>
+          </div>
+        )}
       </div>
-      {gameState.gameStatus === "Waiting" && playerId === gameData.hostId && (
-        <div className="mt-6">
-          <button
-            onClick={onStart}
-            className="w-full rounded-lg bg-green-600 px-4 py-3 text-lg font-bold
-                       text-white transition duration-300 ease-in-out hover:bg-green-700
-                       hover:scale-105 transform"
-          >
-            Start Game
-          </button>
-        </div>
-      )}
-      {gameState.gameStatus === "Playing" && playerId === gameData.hostId && (
-        <div className="mt-6">
-          <button
-            onClick={() => {
-              socket.emit("game:takeCard");
-            }}
-            className="w-full rounded-lg bg-blue-600 px-4 py-3 text-lg font-bold
-                       text-white transition duration-300 ease-in-out hover:bg-blue-700
-                       hover:scale-105 transform"
-          >
-            Take a Card
-          </button>
-        </div>
-      )}
     </div>
   );
 }
