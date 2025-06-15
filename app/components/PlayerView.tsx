@@ -6,8 +6,9 @@ import { BottomActionBar, PlayerList } from "./UIHelpers";
 import { TablaSelectionModal } from "./TablaSelectionModal";
 import { socket } from "~/client/socket";
 import { useMarkedCards } from "~/client/useMarkCards";
-import { useSound } from "~/client/useSound";
 import { CardToast, LastDrawnCardBanner } from "./LastDrawnCard";
+import { WinnerModal } from "./WinnerModal";
+import { LastWinnerBanner } from "./LastWinnerBanner";
 
 export interface PlayerViewProps {
   gameState: GameState;
@@ -62,40 +63,36 @@ export default function PlayerView({ gameState, children }: PlayerViewProps) {
     ? ALL_CARDS_MAP.find((card) => card.title === staticBannerCardName) || null
     : null;
 
-  const [toastCard, setToastCard] = useState<Card | null>(null);
-  const playCardSound = useSound("/card.mp3");
-  const prevDrawnCardsCount = useRef(gameState.drawnCards.length);
-
-  useEffect(() => {
-    if (gameState.drawnCards.length > prevDrawnCardsCount.current) {
-      const latestCardName =
-        gameState.drawnCards[gameState.drawnCards.length - 1];
-      const newCard = latestCardName
-        ? ALL_CARDS_MAP.find((card) => card.title === latestCardName) || null
-        : null;
-
-      playCardSound();
-      setToastCard(newCard);
-
-      const timer = setTimeout(() => {
-        setToastCard(null);
-      }, 4000);
-      return () => clearTimeout(timer);
-    }
-    prevDrawnCardsCount.current = gameState.drawnCards.length;
-  }, [gameState.drawnCards, playCardSound]); // The dependency array is now simple and correct.
-
   // Loteria
   function handleLoteriaClick() {
-    //TODO
+    socket.emit("player:loteria", { markedCards: markedCards });
   }
+
+  const winnerName = gameState.players.find((player) => player.isWinner)?.name;
+  const [showWinnerModal, setShowWinnerModal] = useState(false);
+
+  useEffect(() => {
+    function handleWinner(winner: string | null) {
+      setSelectedTabla([]);
+      setMarkedCards([]);
+      setShowWinnerModal(true);
+    }
+    socket.on("game:winner", handleWinner);
+    return () => {
+      socket.off("game:winner", handleWinner);
+    };
+  });
 
   return (
     <>
       <div className="flex h-screen flex-col bg-loteria-blue text-white">
         <BottomActionBar
+          playerStatus={gameState.playerStatus}
           onLoteriaClick={handleLoteriaClick}
-          disabled={gameState.status !== "Playing"}
+          disabled={
+            gameState.status !== "Playing" ||
+            gameState.playerStatus !== "Playing"
+          }
           onHistoryClick={() =>
             alert(`History: ${gameState.drawnCards.join(", ")}`)
           }
@@ -111,7 +108,6 @@ export default function PlayerView({ gameState, children }: PlayerViewProps) {
 
           <aside className="flex flex-col p-4 w-full space-y-2 items-stretch justify-between h-full">
             <div className="w-full space-y-1">
-              {children}
               {gameState.status === "Waiting" && (
                 <button
                   onClick={() => setShowTablaSelectionModal(true)}
@@ -121,11 +117,13 @@ export default function PlayerView({ gameState, children }: PlayerViewProps) {
                 </button>
               )}
             </div>
-            <div className="flex flex-col items-center p-4">
+            <div className="flex flex-row items-center justify-around p-4 space-x-4">
               <div className="md:w-3xs w-xs">
                 <LastDrawnCardBanner card={staticBannerCard} />
               </div>
+              <LastWinnerBanner winnerName={winnerName ?? null} />
             </div>
+            {children}
             <PlayerList players={gameState.players} />
           </aside>
         </main>
@@ -135,7 +133,12 @@ export default function PlayerView({ gameState, children }: PlayerViewProps) {
         onClose={() => setShowTablaSelectionModal(false)}
         onConfirm={handleConfirmTablaSelection}
       />
-      <CardToast card={toastCard} isVisible={toastCard !== null} />
+      <WinnerModal
+        isOpen={showWinnerModal}
+        onClose={() => setShowWinnerModal(false)}
+        winnerName={winnerName ?? null}
+      />
+      <CardToast gameState={gameState} />
     </>
   );
 }

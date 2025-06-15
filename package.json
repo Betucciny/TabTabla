@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx --env-file=.env server.ts",
-    "start": "tsx --env-file=.env.prod server.ts",
+    "start": "tsx server.ts",
     "build": "react-router build"
   },
   "dependencies": {

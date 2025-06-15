@@ -1,4 +1,7 @@
-import type { Card } from "~/server/shared/cards";
+import { useEffect, useRef, useState } from "react";
+import { useSound } from "~/client/useSound";
+import { ALL_CARDS_MAP, type Card } from "~/server/shared/cards";
+import type { GameState } from "~/server/socket/interfaces";
 
 export function LastDrawnCardBanner({ card }: { card: Card | null }) {
   if (!card)
@@ -19,12 +22,33 @@ export function LastDrawnCardBanner({ card }: { card: Card | null }) {
   );
 }
 
-interface CardToastProps {
-  card: Card | null;
-  isVisible: boolean;
-}
+export function CardToast({ gameState }: { gameState: GameState }) {
+  const [toastCard, setToastCard] = useState<Card | null>(null);
+  const playCardSound = useSound("/card.mp3");
+  const prevDrawnCardsCount = useRef(gameState.drawnCards.length);
 
-export function CardToast({ card, isVisible }: CardToastProps) {
+  useEffect(() => {
+    if (gameState.drawnCards.length > prevDrawnCardsCount.current) {
+      const latestCardName =
+        gameState.drawnCards[gameState.drawnCards.length - 1];
+      const newCard = latestCardName
+        ? ALL_CARDS_MAP.find((card) => card.title === latestCardName) || null
+        : null;
+
+      playCardSound();
+      setToastCard(newCard);
+
+      const timer = setTimeout(() => {
+        setToastCard(null);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+    prevDrawnCardsCount.current = gameState.drawnCards.length;
+  }, [gameState.drawnCards, playCardSound]); // The dependency array is now simple and correct.
+
+  const isVisible = toastCard !== null;
+  const card = toastCard;
+
   console.log(isVisible);
   if (!card) {
     return null;

@@ -4,38 +4,51 @@ export function BottomActionBar({
   onLoteriaClick,
   onHistoryClick,
   disabled,
+  playerStatus,
 }: {
   onLoteriaClick: () => void;
   onHistoryClick: () => void;
   disabled: boolean;
+  playerStatus: string;
 }) {
   return (
-    <div className="flex items-center gap-4 bg-loteria-blue p-4 shadow-lg">
-      <button onClick={onHistoryClick} className="rounded-full p-3 bg-black/20">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+    <div className="flex flex-col gap-4 bg-loteria-blue p-4 shadow-lg">
+      <div className="flex items-center ">
+        <button
+          onClick={onHistoryClick}
+          className="rounded-full p-3 bg-black/20"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      </button>
-      <button
-        onClick={onLoteriaClick}
-        className={`flex-grow rounded-lg bg-loteria-orange py-4 text-2xl font-black text-white ${
-          disabled ? "opacity-50 cursor-not-allowed" : ""
-        }`}
-        disabled={disabled}
-      >
-        ¡LOTERÍA!
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </button>
+        <button
+          onClick={onLoteriaClick}
+          className={`flex-grow rounded-lg bg-loteria-orange py-4 text-2xl font-black text-white ${
+            disabled ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          disabled={disabled}
+        >
+          ¡LOTERÍA!
+        </button>
+      </div>
+      <div className="flex items-center justify-center bg-white/10 p-2 rounded-lg">
+        <span className="text-sm font-medium text-white">Status:</span>
+        <span className="ml-2 text-sm font-bold text-loteria-orange">
+          {playerStatus}
+        </span>
+      </div>
     </div>
   );
 }

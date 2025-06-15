@@ -1,12 +1,13 @@
 import { getSessionCookie } from "~/.server/cookies";
 import type { Route } from "./+types/game";
-import { redirect } from "react-router";
+import { redirect, useNavigate } from "react-router";
 import { getGame } from "~/.server/game";
 import { useEffect, useState } from "react";
 import { socket } from "~/client/socket";
 import HostView from "~/components/HostView";
 import PlayerView from "~/components/PlayerView";
 import type { GameState } from "~/server/socket/interfaces";
+import Loading from "~/components/Loading";
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const session = await getSessionCookie(request.headers.get("Cookie"));
@@ -28,19 +29,27 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
 export default function GamePage({ loaderData }: Route.ComponentProps) {
   const { gameId, playerId } = loaderData;
-
+  const navigate = useNavigate();
   const [gameState, setGameState] = useState<GameState | null>(null);
 
   useEffect(() => {
     function onGameStateUpdate(data: GameState) {
       setGameState(data);
     }
+
+    function onGameDestroyed() {
+      alert("Game has been destroyed");
+      navigate("/");
+    }
+
     socket.connect();
     socket.emit("player:joinRoom", { playerId, gameId });
     socket.on("game:stateUpdate", onGameStateUpdate);
+    socket.on("game:destroyed", onGameDestroyed);
 
     return () => {
       socket.off("game:stateUpdate", onGameStateUpdate);
+      socket.off("game:destroyed", onGameDestroyed);
       socket.disconnect();
     };
   }, [playerId, gameId]);
@@ -48,7 +57,7 @@ export default function GamePage({ loaderData }: Route.ComponentProps) {
   return (
     <>
       {!gameState ? (
-        <div>Loading...</div>
+        <Loading />
       ) : gameState.isHost ? (
         <HostView gameState={gameState} />
       ) : (
