@@ -1,2 +1,8 @@
 @import "tailwindcss";
 @import "tailwindcss-animated";
+
+@theme {
+  --color-loteria-blue: #0a243a;
+  --color-loteria-orange: #f5842a;
+  --color-loteria-cream: #fbf8f3;
+}

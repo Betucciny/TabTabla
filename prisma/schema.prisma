@@ -52,4 +52,5 @@ enum PlayerStatus {
   Waiting
   Ready
   Playing
+  Eliminated
 }

@@ -1,6 +1,6 @@
 import type { GameStatus, PlayerStatus } from "@prisma/client";
-import { prisma } from "~/server/prisma";
-import { generateUniqueShortCode, getShuffleCards } from "~/server/shared/util";
+import { prisma } from "./prisma";
+import { generateUniqueShortCode, getShuffleCards } from "./util";
 
 export type GameResponse<T> = {
   data: T | null;
@@ -103,11 +103,20 @@ export async function getGame(
   playerId: string
 ): Promise<
   GameResponse<{
+    id: string;
     hostId: string;
     gameStatus: GameStatus;
     drawnCards: string[];
     playerTabla: string[];
     playerStatus: PlayerStatus;
+    isHost: boolean;
+    playerId: string;
+    players: {
+      id: string;
+      name: string;
+      status: PlayerStatus;
+      tabla: string[];
+    }[];
   }>
 > {
   try {
@@ -138,11 +147,20 @@ export async function getGame(
 
     return {
       data: {
+        id: game.id,
         hostId: game.hostPlayerId,
         gameStatus: game.status,
         drawnCards: game.drawnCards,
         playerTabla: player.playerTabla,
         playerStatus: player.status,
+        isHost: player.id === game.hostPlayerId,
+        playerId: player.id,
+        players: game.players.map((player) => ({
+          id: player.id,
+          name: player.name,
+          status: player.status,
+          tabla: player.playerTabla,
+        })),
       },
       success: true,
       error: null,

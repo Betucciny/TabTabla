@@ -86,10 +86,7 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
   }, []);
 
   return (
-    <div
-      className="flex min-h-screen flex-col items-center justify-center
-                    bg-gradient-to-br from-red-500 to-yellow-500 p-4 text-white"
-    >
+    <div className="flex min-h-screen flex-col items-center justify-center p-4 text-white bg-loteria-blue">
       <h1
         className="mb-8 animate-fade-in-down text-6xl font-bold
                    [text-shadow:_2px_2px_4px_rgb(0_0_0_/_40%)]"
@@ -108,8 +105,8 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
           </div>
         )}
         {/* Section to Create a New Game */}
-        <div className="mb-8 rounded-lg border border-gray-200 bg-gray-50 p-4 ">
-          <h3 className="mb-4 text-center text-2xl font-medium text-blue-700">
+        <div className="mb-8 rounded-lg border border-gray-200 bg-loteria-cream p-4 ">
+          <h3 className="mb-4 text-center text-2xl font-bold text-loteria-blue">
             Soy el Anfitrión
           </h3>
           <Form method="post">
@@ -137,8 +134,8 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
             </div>
             <button
               type="submit"
-              className="w-full rounded-lg bg-green-600 px-4 py-3 text-lg font-bold
-                         text-white transition duration-300 ease-in-out hover:bg-green-700
+              className="w-full rounded-lg bg-loteria-orange px-4 py-3 text-lg font-bold
+                         text-white transition duration-300 ease-in-out
                          hover:scale-105 transform"
               disabled={isCreating}
             >
@@ -154,7 +151,7 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
 
         {/* Section to Join an Existing Game */}
         <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-          <h3 className="mb-4 text-center text-2xl font-medium text-purple-700">
+          <h3 className="mb-4 text-center text-2xl font-bold text-loteria-blue">
             Unirme a una Partida
           </h3>
           <Form method="post">
@@ -204,8 +201,8 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
             </div>
             <button
               type="submit"
-              className="w-full rounded-lg bg-blue-600 px-4 py-3 text-lg font-bold
-                         text-white transition duration-300 ease-in-out hover:bg-blue-700
+              className="w-full rounded-lg bg-loteria-orange px-4 py-3 text-lg font-bold
+                         text-white transition duration-300 ease-in-out
                          hover:scale-105 transform"
               disabled={isJoining}
             >

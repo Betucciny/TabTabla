@@ -5,11 +5,7 @@
     "app/**/*",
     "app/**/.server/**/*",
     "app/**/.client/**/*",
-    "server/**/*",
-    "shared/util.ts",
-    "app/.server",
-    "**/*.ts",
-    "**/*.tsx"
+    "server/**/*"
   ],
   "compilerOptions": {
     "composite": true,

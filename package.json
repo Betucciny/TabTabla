@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx --env-file=.env server.ts",
-    "start": "tsx server.ts",
-    "build": "tsc --project tsconfig.node.json"
+    "start": "tsx --env-file=.env.prod server.ts",
+    "build": "react-router build"
   },
   "dependencies": {
     "@prisma/client": "^6.9.0",
