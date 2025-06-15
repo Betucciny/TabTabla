@@ -1,5 +1,5 @@
 import type { GameStatus, PlayerStatus } from "@prisma/client";
-import { prisma } from "./prisma";
+import { prisma } from "~/server/prisma";
 import { generateUniqueShortCode, getShuffleCards } from "./util";
 
 export type GameResponse<T> = {

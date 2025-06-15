@@ -1,4 +1,4 @@
-import type { Card } from "~/server/shared/cards";
+import type { Card } from "~/.server/cards";
 
 type PlayerTablaProps = {
   cards: Card[];

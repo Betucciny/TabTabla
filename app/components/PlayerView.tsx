@@ -1,4 +1,3 @@
-import { GameStatus, type PlayerStatus } from "@prisma/client";
 import { useEffect, useRef, useState } from "react";
 import { ALL_CARDS_MAP, type Card, type Tabla } from "~/server/shared/cards";
 import { PlayerTabla } from "./PlayerTabla";
@@ -19,10 +18,7 @@ export default function PlayerView({ gameState, children }: PlayerViewProps) {
   //Marked Cards
   const [markedCards, setMarkedCards] = useMarkedCards(gameState.id);
   useEffect(() => {
-    if (
-      gameState.status === GameStatus.Playing &&
-      gameState.drawnCards.length === 0
-    ) {
+    if (gameState.status === "Playing" && gameState.drawnCards.length === 0) {
       setMarkedCards([]);
     }
   }, [gameState.status, gameState.drawnCards, setMarkedCards]);
@@ -99,7 +95,7 @@ export default function PlayerView({ gameState, children }: PlayerViewProps) {
       <div className="flex h-screen flex-col bg-loteria-blue text-white">
         <BottomActionBar
           onLoteriaClick={handleLoteriaClick}
-          disabled={gameState.status !== GameStatus.Playing}
+          disabled={gameState.status !== "Playing"}
           onHistoryClick={() =>
             alert(`History: ${gameState.drawnCards.join(", ")}`)
           }
@@ -116,7 +112,7 @@ export default function PlayerView({ gameState, children }: PlayerViewProps) {
           <aside className="flex flex-col p-4 w-full space-y-2 items-stretch justify-between h-full">
             <div className="w-full space-y-1">
               {children}
-              {gameState.status === GameStatus.Waiting && (
+              {gameState.status === "Waiting" && (
                 <button
                   onClick={() => setShowTablaSelectionModal(true)}
                   className="rounded-lg bg-white/20 px-6 py-2 font-semibold transition hover:bg-white/30 w-full"
