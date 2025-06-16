@@ -14,6 +14,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY server ./server
+COPY server.ts ./
 COPY prisma ./prisma
 COPY tsconfig*.json ./
 
