@@ -9,6 +9,7 @@ import { useMarkedCards } from "~/client/useMarkCards";
 import { CardToast, LastDrawnCardBanner } from "./LastDrawnCard";
 import { WinnerModal } from "./WinnerModal";
 import { LastWinnerBanner } from "./LastWinnerBanner";
+import CodeShowcase from "./CodeShowcase";
 
 export interface PlayerViewProps {
   gameState: GameState;
@@ -119,9 +120,9 @@ export default function PlayerView({
           </div>
 
           <aside className="flex flex-col p-4 w-full space-y-2 items-stretch justify-between h-full">
+            <CodeShowcase code={gameState.shortCode} />
             <div className="w-full space-y-1 flex flex-col">
               {topChildren}
-
               {gameState.status === "Waiting" && (
                 <button
                   onClick={() => setShowTablaSelectionModal(true)}
