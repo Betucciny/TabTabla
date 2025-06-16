@@ -83,6 +83,29 @@ export function hostActions(io: SocketIOServer, socket: Socket) {
     }
   });
 
+  socket.on("game:endRound", async () => {
+    const { gameId } = socket.data;
+    try {
+      await prisma.gameSession.update({
+        where: { id: gameId },
+        data: {
+          status: "Waiting",
+          drawnCards: [],
+          players: {
+            updateMany: {
+              where: {},
+              data: { status: "Waiting", playerTabla: [], isWinner: false },
+            },
+          },
+        },
+      });
+      await broadcastGameState(io, gameId);
+      io.to(gameId).emit("game:winner", null);
+    } catch (error) {
+      console.error(`Error ending round for game ${gameId}:`, error);
+    }
+  });
+
   socket.on("game:destroy", async () => {
     const { gameId } = socket.data;
     try {
@@ -106,6 +129,23 @@ export function playerActions(io: SocketIOServer, socket: Socket) {
       socket.emit("game:stateUpdate", gameState);
     } catch (error) {
       console.error(`Error selecting tabla for player ${playerId}:`, error);
+    }
+  });
+
+  socket.on("player:leave", async () => {
+    const { playerId, gameId } = socket.data;
+    try {
+      await prisma.playerInGame.delete({
+        where: {
+          id: playerId,
+        },
+      });
+      await broadcastGameState(io, gameId);
+    } catch (error) {
+      console.error(
+        `Error leaving game ${gameId} for player ${playerId}:`,
+        error
+      );
     }
   });
 

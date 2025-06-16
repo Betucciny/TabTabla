@@ -10,6 +10,7 @@ import { CardToast, LastDrawnCardBanner } from "./LastDrawnCard";
 import { WinnerModal } from "./WinnerModal";
 import { LastWinnerBanner } from "./LastWinnerBanner";
 import CodeShowcase from "./CodeShowcase";
+import { useNavigate } from "react-router";
 
 export interface PlayerViewProps {
   gameState: GameState;
@@ -76,6 +77,13 @@ export default function PlayerView({
     socket.emit("player:loteria", { markedCards: markedCards });
   }
 
+  const navigate = useNavigate();
+
+  function handleExitGameClick() {
+    socket.emit("player:leave");
+    navigate("/");
+  }
+
   const winnerName = gameState.players.find((player) => player.isWinner)?.name;
   const [showWinnerModal, setShowWinnerModal] = useState(false);
 
@@ -94,6 +102,10 @@ export default function PlayerView({
   const playerStatus = gameState.players.find(
     (player) => player.id === playerId
   )?.status!!;
+
+  const isHost =
+    gameState.players.find((player) => player.id === gameState.hostId)?.id ===
+    playerId;
 
   return (
     <>
@@ -140,6 +152,14 @@ export default function PlayerView({
               <div>
                 <PlayerList players={gameState.players} />
                 {children}
+                {!isHost && (
+                  <button
+                    onClick={handleExitGameClick}
+                    className="rounded-lg bg-white/20 px-6 py-2 font-semibold transition hover:bg-white/30 w-full z-50"
+                  >
+                    Exit Game
+                  </button>
+                )}
               </div>
             </aside>
           </main>

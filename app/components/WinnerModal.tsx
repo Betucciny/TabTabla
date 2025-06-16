@@ -34,7 +34,7 @@ export function WinnerModal({ winnerName, onClose, isOpen }: WinnerModalProps) {
           </>
         ) : (
           <h1 className="text-4xl font-black uppercase tracking-wider">
-            There are no more Cards or all players have been eliminated!
+            Game Over no Winner!
           </h1>
         )}
         <button

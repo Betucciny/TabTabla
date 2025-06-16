@@ -1,4 +1,4 @@
-import { Form, redirect, useNavigation } from "react-router";
+import { Form, Link, redirect, useNavigation } from "react-router";
 import type { Route } from "./+types/home";
 import { useEffect, useState } from "react";
 import { createGame, joinGame } from "~/.server/game";
@@ -90,7 +90,7 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
     <>
       <PapelPicadoBackground position="top" />
       <PapelPicadoBackground position="bottom" />
-      <div className="flex min-h-screen flex-col items-center justify-center p-4 text-white bg-loteria-blue">
+      <div className="flex min-h-screen flex-col items-center justify-center p-4 text-white bg-loteria-blue my-5 md:my-0">
         <h1
           className="mb-8 animate-fade-in-down text-6xl font-bold
                    [text-shadow:_2px_2px_4px_rgb(0_0_0_/_40%)]"
@@ -154,7 +154,7 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
           </div>
 
           {/* Section to Join an Existing Game */}
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+          <div className="mb-8 rounded-lg border border-gray-200 bg-gray-50 p-4">
             <h3 className="mb-4 text-center text-2xl font-bold text-loteria-blue">
               Join a Game
             </h3>
@@ -218,6 +218,25 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
                 Error: {actionData.message}
               </p>
             )}
+          </div>
+          <div className="flex items-center justify-center flex-col rounded-lg border border-gray-200 bg-gray-50 p-4 text-loteria-blue">
+            <h3 className="mb-4 text-center text-2xl font-bold ">About</h3>
+            <Link
+              to="/about"
+              className="hover:text-loteria-orange underline mx-2"
+            >
+              How to Play
+            </Link>
+            &bull;
+            <a
+              href="https://www.paypal.me/betucciny"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-loteria-orange  underline mx-2"
+            >
+              Buy Me a Coffee
+            </a>
+            <p className="mt-2">A game by Roberto Ángel Herrera Rodríguez</p>
           </div>
         </div>
       </div>

@@ -17,7 +17,7 @@ export default function HostView({ gameState, playerId }: HostViewProps) {
   };
 
   const handleFinishGame = () => {
-    //TODO
+    socket.emit("game:endRound");
   };
 
   return (

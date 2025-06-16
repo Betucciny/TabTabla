@@ -9,7 +9,15 @@ import PlayerView from "~/components/PlayerView";
 import type { GameState } from "~/server/socket/interfaces";
 import Loading from "~/components/Loading";
 import { PapelPicadoBackground } from "~/components/PapelPicadoBackground";
-import { Spacer } from "~/components/UIHelpers";
+import { ALL_CARDS_MAP } from "~/server/shared/cards";
+import { useImagePreloader } from "~/client/useImagePreloader";
+
+export function meta({ params }: Route.MetaArgs) {
+  return [
+    { title: `TabTabla Lotería - ${params.shortCode}` },
+    { name: "description", content: `Juego de Lotería | ${params.shortCode}` },
+  ];
+}
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const session = await getSessionCookie(request.headers.get("Cookie"));
@@ -28,9 +36,12 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   return { gameId: game.data.id, playerId: playerId };
 }
 
+const allImageUrls = ALL_CARDS_MAP.map((card) => card.image);
+
 export default function GamePage({ loaderData }: Route.ComponentProps) {
   const { gameId, playerId } = loaderData;
   const navigate = useNavigate();
+  const { isLoading } = useImagePreloader(allImageUrls);
   const [gameState, setGameState] = useState<GameState | null>(null);
 
   useEffect(() => {
@@ -62,7 +73,7 @@ export default function GamePage({ loaderData }: Route.ComponentProps) {
     <>
       <PapelPicadoBackground position="top" />
       <PapelPicadoBackground position="bottom" />
-      {!gameState ? (
+      {!gameState || isLoading ? (
         <Loading />
       ) : isHost ? (
         <HostView gameState={gameState} playerId={playerId} />
