@@ -37,7 +37,7 @@ export function hostActions(io: SocketIOServer, socket: Socket) {
         },
       });
 
-      await broadcastGameState(io, gameId, playerId);
+      await broadcastGameState(io, gameId);
     } catch (error) {
       console.error(`Error starting game ${gameId}:`, error);
     }
@@ -66,7 +66,7 @@ export function hostActions(io: SocketIOServer, socket: Socket) {
             },
           },
         });
-        await broadcastGameState(io, gameId, playerId);
+        await broadcastGameState(io, gameId);
         io.to(gameId).emit("game:winner", null);
         return;
       }
@@ -77,7 +77,7 @@ export function hostActions(io: SocketIOServer, socket: Socket) {
         data: { drawnCards: { push: nextCard } },
       });
 
-      await broadcastGameState(io, gameId, playerId);
+      await broadcastGameState(io, gameId);
     } catch (error) {
       console.error(`Error taking card for game ${gameId}:`, error);
     }
@@ -102,7 +102,7 @@ export function playerActions(io: SocketIOServer, socket: Socket) {
         where: { id: playerId },
         data: { playerTabla: tabla, status: PlayerStatus.Ready },
       });
-      const gameState = await getFullGameState(player.gameSessionId, playerId);
+      const gameState = await getFullGameState(player.gameSessionId);
       socket.emit("game:stateUpdate", gameState);
     } catch (error) {
       console.error(`Error selecting tabla for player ${playerId}:`, error);
@@ -124,7 +124,6 @@ export function playerActions(io: SocketIOServer, socket: Socket) {
         const isWinner =
           player.playerTabla.length === markedCards.length &&
           markedCards.every((card) => game.drawnCards.includes(card));
-        console.log(markedCards);
         if (isWinner) {
           await prisma.gameSession.update({
             where: { id: gameId },
@@ -143,7 +142,7 @@ export function playerActions(io: SocketIOServer, socket: Socket) {
               },
             },
           });
-          await broadcastGameState(io, gameId, playerId);
+          await broadcastGameState(io, gameId);
           io.to(gameId).emit("game:winner", player.name);
         } else {
           await prisma.playerInGame.update({
@@ -155,8 +154,33 @@ export function playerActions(io: SocketIOServer, socket: Socket) {
             success: false,
             message: "False call! You are out for the rest of this round.",
           });
+          const stillPlayers = await prisma.playerInGame.findMany({
+            where: { gameSessionId: gameId, status: PlayerStatus.Playing },
+          });
 
-          await broadcastGameState(io, gameId, playerId);
+          if (stillPlayers.length === 0) {
+            await prisma.gameSession.update({
+              where: { id: gameId },
+              data: {
+                status: "Waiting",
+                drawnCards: [],
+                players: {
+                  updateMany: {
+                    where: {},
+                    data: {
+                      status: "Waiting",
+                      playerTabla: [],
+                      isWinner: false,
+                    },
+                  },
+                },
+              },
+            });
+            await broadcastGameState(io, gameId);
+            io.to(gameId).emit("game:winner", null);
+          } else {
+            await broadcastGameState(io, gameId);
+          }
         }
       } catch (error) {
         console.error(`Error checking loteria for player ${playerId}:`, error);

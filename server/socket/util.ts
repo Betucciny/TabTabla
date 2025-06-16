@@ -2,10 +2,7 @@ import { prisma } from "../prisma";
 import type { Server as SocketIOServer } from "socket.io";
 import type { GameState } from "./interfaces";
 
-export async function getFullGameState(
-  gameId: string,
-  playerId: string
-): Promise<GameState> {
+export async function getFullGameState(gameId: string): Promise<GameState> {
   const gameSession = await prisma.gameSession.findUniqueOrThrow({
     where: { id: gameId },
     include: {
@@ -14,9 +11,6 @@ export async function getFullGameState(
       },
     },
   });
-
-  console.log(playerId);
-  console.log(gameSession);
 
   return {
     id: gameSession.id,
@@ -34,13 +28,9 @@ export async function getFullGameState(
   };
 }
 
-export async function broadcastGameState(
-  io: SocketIOServer,
-  gameId: string,
-  playerId: string
-) {
+export async function broadcastGameState(io: SocketIOServer, gameId: string) {
   try {
-    const gameState = await getFullGameState(gameId, playerId);
+    const gameState = await getFullGameState(gameId);
     io.to(gameId).emit("game:stateUpdate", gameState);
   } catch (error) {
     console.error(`Failed to broadcast game state for ${gameId}:`, error);

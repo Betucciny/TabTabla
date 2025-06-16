@@ -3,6 +3,7 @@
 
 @theme {
   --color-loteria-blue: #0a243a;
+  --color-loteria-blue-light: rgba(10, 36, 58, 0.9);
   --color-loteria-orange: #f5842a;
   --color-loteria-cream: #fbf8f3;
 }

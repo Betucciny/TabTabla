@@ -12,8 +12,12 @@ export default function HostView({ gameState, playerId }: HostViewProps) {
     socket.emit("game:takeCard");
   };
 
-  const handleFinishGame = () => {
+  const handleDestroyRoom = () => {
     socket.emit("game:destroy");
+  };
+
+  const handleFinishGame = () => {
+    //TODO
   };
 
   return (
@@ -26,7 +30,7 @@ export default function HostView({ gameState, playerId }: HostViewProps) {
             {gameState.status === "Waiting" && (
               <button
                 onClick={handleStartGame}
-                className="w-full rounded-lg bg-green-600 px-6 py-2 font-bold text-white"
+                className="w-full rounded-lg bg-green-600 px-6 py-2 font-bold text-white z-50"
               >
                 Start Game
               </button>
@@ -34,7 +38,7 @@ export default function HostView({ gameState, playerId }: HostViewProps) {
             {gameState.status === "Playing" && (
               <button
                 onClick={handleDrawCard}
-                className="w-full rounded-lg bg-blue-600 px-6 py-2 font-bold text-white"
+                className="w-full rounded-lg bg-blue-600 px-6 py-2 font-bold text-white z-50"
               >
                 Draw Card
               </button>
@@ -43,11 +47,20 @@ export default function HostView({ gameState, playerId }: HostViewProps) {
         }
       >
         <div className="flex flex-col space-y-2">
+          {gameState.status === "Playing" && (
+            <button
+              onClick={handleFinishGame}
+              className="w-full rounded-lg bg-red-400 px-6 py-2 font-bold text-white z-50"
+            >
+              Finish Game
+            </button>
+          )}
+
           <button
-            onClick={handleFinishGame}
-            className="w-full rounded-lg bg-red-600 px-6 py-2 font-bold text-white"
+            onClick={handleDestroyRoom}
+            className="w-full rounded-lg bg-red-600 px-6 py-2 font-bold text-white z-50"
           >
-            Finish Game
+            Destroy Room
           </button>
         </div>
       </PlayerView>

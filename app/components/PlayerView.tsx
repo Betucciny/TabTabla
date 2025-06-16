@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ALL_CARDS_MAP, type Card, type Tabla } from "~/server/shared/cards";
 import { PlayerTabla } from "./PlayerTabla";
 import type { GameState } from "~/server/socket/interfaces";
-import { BottomActionBar, PlayerList } from "./UIHelpers";
+import { BottomActionBar, PlayerList, Spacer } from "./UIHelpers";
 import { TablaSelectionModal } from "./TablaSelectionModal";
 import { socket } from "~/client/socket";
 import { useMarkedCards } from "~/client/useMarkCards";
@@ -58,9 +58,7 @@ export default function PlayerView({
 
   const handleConfirmTablaSelection = (selectedTabla: Tabla) => {
     const selectedTablaNames = selectedTabla.map((card) => card.title);
-    console.log("Emitting player:selectTabla with data:", {
-      tabla: selectedTablaNames,
-    });
+
     setSelectedTabla(selectedTabla);
     setShowTablaSelectionModal(false);
     socket.emit("player:selectTabla", { tabla: selectedTablaNames });
@@ -99,49 +97,53 @@ export default function PlayerView({
 
   return (
     <>
-      <div className="flex h-screen flex-col bg-loteria-blue text-white">
-        <BottomActionBar
-          playerStatus={playerStatus}
-          onLoteriaClick={handleLoteriaClick}
-          disabled={
-            gameState.status !== "Playing" || playerStatus !== "Playing"
-          }
-          onHistoryClick={() =>
-            alert(`History: ${gameState.drawnCards.join(", ")}`)
-          }
-        />
-        <main className="flex-grow flex flex-col md:flex-row overflow-y-auto">
-          <div className="md:w-4xl">
-            <PlayerTabla
-              cards={tablaCards}
-              markedCards={markedCards}
-              onCardClick={handleCardClick}
-            />
-          </div>
+      <div className="bg-loteria-blue-light text-white min-h-screen flex justify-center items-center">
+        <div className="flex flex-col max-w-[1200px] lg:max-h-[990px] z-50 bg-loteria-blue shadow-lg rounded-xl md:px-5 bg-opacity-50">
+          <BottomActionBar
+            playerStatus={playerStatus}
+            onLoteriaClick={handleLoteriaClick}
+            disabled={
+              gameState.status !== "Playing" ||
+              playerStatus !== "Playing" ||
+              markedCards.length !== 16
+            }
+            onHistoryClick={() =>
+              alert(`History: ${gameState.drawnCards.join(", ")}`)
+            }
+          />
+          <main className="flex-grow flex flex-col md:flex-row  items-center z-50">
+            <div className="w-full z-50">
+              <PlayerTabla
+                cards={tablaCards}
+                markedCards={markedCards}
+                onCardClick={handleCardClick}
+              />
+            </div>
 
-          <aside className="flex flex-col p-4 w-full space-y-2 items-stretch justify-between h-full">
-            <CodeShowcase code={gameState.shortCode} />
-            <div className="w-full space-y-1 flex flex-col">
-              {topChildren}
-              {gameState.status === "Waiting" && (
-                <button
-                  onClick={() => setShowTablaSelectionModal(true)}
-                  className="rounded-lg bg-white/20 px-6 py-2 font-semibold transition hover:bg-white/30 w-full"
-                >
-                  Change Tabla
-                </button>
-              )}
-            </div>
-            <div className="flex flex-row items-center justify-around p-4 space-x-4">
-              <div className="md:w-3xs w-xs">
-                <LastDrawnCardBanner card={staticBannerCard} />
+            <aside className="flex flex-col p-4 w-full items-stretch justify-between h-full lg:max-h-[1080px]">
+              <div className="w-full space-y-1 flex flex-col">
+                <CodeShowcase code={gameState.shortCode} />
+                {topChildren}
+                {gameState.status === "Waiting" && (
+                  <button
+                    onClick={() => setShowTablaSelectionModal(true)}
+                    className="rounded-lg bg-white/20 px-6 py-2 font-semibold transition hover:bg-white/30 w-full z-50"
+                  >
+                    Change Tabla
+                  </button>
+                )}
               </div>
-              <LastWinnerBanner winnerName={winnerName ?? null} />
-            </div>
-            {children}
-            <PlayerList players={gameState.players} />
-          </aside>
-        </main>
+              <div className="flex flex-col items-center justify-around p-4 space-y-2 space-x-0  ">
+                <LastDrawnCardBanner card={staticBannerCard} />
+                <LastWinnerBanner winnerName={winnerName ?? null} />
+              </div>
+              <div>
+                <PlayerList players={gameState.players} />
+                {children}
+              </div>
+            </aside>
+          </main>
+        </div>
       </div>
       <TablaSelectionModal
         isOpen={showTablaSelectionModal}

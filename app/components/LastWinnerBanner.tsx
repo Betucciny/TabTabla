@@ -4,7 +4,7 @@ interface LastWinnerBannerProps {
 
 export function LastWinnerBanner({ winnerName }: LastWinnerBannerProps) {
   return (
-    <div className="mb-6 flex items-center justify-center gap-3 rounded-lg bg-black/20 p-3 text-center">
+    <div className="flex items-center justify-center gap-3 rounded-lg bg-black/20 p-3 text-center z-50">
       {winnerName ? (
         <>
           <svg

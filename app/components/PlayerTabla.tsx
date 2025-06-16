@@ -18,8 +18,14 @@ export function PlayerTabla({
             (index) => (
               <div
                 key={index}
-                className="aspect-[2/3] animate-pulse rounded-lg bg-gray-300 h-auto"
-              ></div>
+                className={`z-10 relative cursor-pointer rounded-lg border-2 border-white bg-white p-1 shadow-md transition-transform duration-200 hover:scale-105 h-auto`}
+              >
+                <img
+                  src={`/question.png`}
+                  alt={`Placeholder ${index}`}
+                  className="aspect-[2/3] w-full h-auto"
+                />
+              </div>
             )
           )
         : cards.map((card) => (

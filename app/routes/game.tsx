@@ -8,6 +8,8 @@ import HostView from "~/components/HostView";
 import PlayerView from "~/components/PlayerView";
 import type { GameState } from "~/server/socket/interfaces";
 import Loading from "~/components/Loading";
+import { PapelPicadoBackground } from "~/components/PapelPicadoBackground";
+import { Spacer } from "~/components/UIHelpers";
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const session = await getSessionCookie(request.headers.get("Cookie"));
@@ -19,7 +21,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   }
 
   const game = await getGame(params.shortCode, playerId);
-  console.log("Game:", game);
   if (!game.success || !game.data) {
     return redirect("/");
   }
@@ -34,6 +35,7 @@ export default function GamePage({ loaderData }: Route.ComponentProps) {
 
   useEffect(() => {
     function onGameStateUpdate(data: GameState) {
+      console.log("Game State Updated");
       setGameState(data);
     }
 
@@ -58,6 +60,8 @@ export default function GamePage({ loaderData }: Route.ComponentProps) {
 
   return (
     <>
+      <PapelPicadoBackground position="top" />
+      <PapelPicadoBackground position="bottom" />
       {!gameState ? (
         <Loading />
       ) : isHost ? (

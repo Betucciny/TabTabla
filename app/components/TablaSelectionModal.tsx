@@ -46,12 +46,12 @@ export function TablaSelectionModal({
         </div>
 
         {/* Grid for Tabla Options */}
-        <div className="flex flex-col md:flex-row space-y-6 space-x-0 md:space-x-6 md:space-y-0 overflow-y-scroll p-6 overflow-x-auto">
+        <div className="flex flex-col md:flex-row space-y-6 space-x-0 md:space-x-6 md:space-y-0 overflow-y-scroll p-6 overflow-x-auto items-center">
           {tablaOptions.map((tabla, index) => (
             <div
               key={index}
               onClick={() => setSelectedIndex(index)}
-              className={`cursor-pointer rounded-xl border-4 p-1 transition-all ${
+              className={`cursor-pointer rounded-xl border-4 p-1 transition-all w-11/12 ${
                 selectedIndex === index
                   ? "border-loteria-orange scale-105"
                   : "border-loteria-blue hover:border-loteria-orange/50"

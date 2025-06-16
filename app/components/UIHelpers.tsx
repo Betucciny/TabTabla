@@ -12,9 +12,9 @@ export function BottomActionBar({
   playerStatus: string;
 }) {
   return (
-    <div className="flex flex-col gap-4 bg-loteria-blue p-4 shadow-lg">
+    <div className="flex flex-col gap-4 bg-loteria-blue p-4 shadow-lg z-50">
       <div className="flex items-center ">
-        <button
+        {/* <button
           onClick={onHistoryClick}
           className="rounded-full p-3 bg-black/20"
         >
@@ -32,7 +32,7 @@ export function BottomActionBar({
               d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-        </button>
+        </button> */}
         <button
           onClick={onLoteriaClick}
           className={`flex-grow rounded-lg bg-loteria-orange py-4 text-2xl font-black text-white ${
@@ -79,23 +79,69 @@ export function DrawnCardModal({
     </div>
   );
 }
-
 export function PlayerList({
   players,
 }: {
-  players: { id: string; name: string }[];
+  players: { id: string; name: string; status: string }[];
 }) {
+  const statusClasses: Record<string, string> = {
+    Playing: "bg-green-500",
+    Waiting: "bg-yellow-500",
+    Ready: "bg-blue-500",
+  };
+  const playerCounts = players.reduce(
+    (counts, player) => {
+      if (
+        player.status === "Playing" ||
+        player.status === "Waiting" ||
+        player.status === "Ready"
+      ) {
+        counts[player.status] = (counts[player.status] || 0) + 1;
+      }
+      counts.total += 1;
+      return counts;
+    },
+    { Playing: 0, Waiting: 0, Ready: 0, total: 0 }
+  );
+
   return (
-    <div className="my-6">
+    <div className="my-6 ">
       <h3 className="text-xl font-bold">Players</h3>
-      <ul className="mt-2  flex flex-wrap">
+      <div className="mb-4">
+        <p className="text-sm font-medium">
+          Total Players: {playerCounts.total}
+        </p>
+        <div className="flex items-center gap-4 mt-2">
+          <div className="flex items-center gap-2">
+            <div className="h-4 w-4 rounded-full bg-green-500"></div>
+            <span className="text-sm">Playing: {playerCounts.Playing}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="h-4 w-4 rounded-full bg-yellow-500"></div>
+            <span className="text-sm">Waiting: {playerCounts.Waiting}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="h-4 w-4 rounded-full bg-blue-500"></div>
+            <span className="text-sm">Ready: {playerCounts.Ready}</span>
+          </div>
+        </div>
+      </div>
+      <ul className="mt-2 flex flex-wrap justify-around items-center md:max-h-24 overflow-scroll">
         {players.map((player) => (
           <li key={player.id} className="flex items-center gap-3 m-2">
-            <div className="h-8 w-8 rounded-full bg-white/20"></div>
+            <div
+              className={`h-8 w-8 rounded-full ${
+                statusClasses[player.status] || "bg-gray-500"
+              }`}
+            ></div>
             <span>{player.name}</span>
           </li>
         ))}
       </ul>
     </div>
   );
+}
+
+export function Spacer() {
+  return <div className="h-4"></div>;
 }

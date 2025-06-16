@@ -22,7 +22,7 @@ export function registerSocketHandlers(io: SocketIOServer) {
         console.log(
           `Socket ${socket.id} (Player ${playerId}) joined room ${gameId}`
         );
-        await broadcastGameState(io, gameId, playerId);
+        await broadcastGameState(io, gameId);
       } catch (error) {
         console.error("Error in player:joinRoom", error);
       }
