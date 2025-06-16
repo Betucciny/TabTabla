@@ -15,9 +15,6 @@ export async function getFullGameState(
     },
   });
 
-  const player = gameSession.players.find((p) => p.id === playerId);
-  const playerTabla = player?.playerTabla || [];
-
   console.log(playerId);
   console.log(gameSession);
 
@@ -27,14 +24,13 @@ export async function getFullGameState(
     status: gameSession.status,
     drawnCards: gameSession.drawnCards,
     hostId: gameSession.hostPlayerId,
-    playerTabla: playerTabla,
-    playerStatus: player?.status!!,
     isHost: gameSession.hostPlayerId === playerId,
     players: gameSession.players.map((p) => ({
       id: p.id,
       name: p.name,
       status: p.status,
       isWinner: p.isWinner,
+      playerTabla: p.playerTabla,
     })),
   };
 }

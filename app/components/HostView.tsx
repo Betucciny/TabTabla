@@ -3,7 +3,7 @@ import PlayerView, { type PlayerViewProps } from "./PlayerView";
 
 interface HostViewProps extends PlayerViewProps {}
 
-export default function HostView({ gameState }: HostViewProps) {
+export default function HostView({ gameState, playerId }: HostViewProps) {
   const handleStartGame = () => {
     socket.emit("game:start");
   };
@@ -18,24 +18,31 @@ export default function HostView({ gameState }: HostViewProps) {
 
   return (
     <>
-      <PlayerView gameState={gameState}>
+      <PlayerView
+        gameState={gameState}
+        playerId={playerId}
+        topChildren={
+          <>
+            {gameState.status === "Waiting" && (
+              <button
+                onClick={handleStartGame}
+                className="w-full rounded-lg bg-green-600 px-6 py-2 font-bold text-white"
+              >
+                Start Game
+              </button>
+            )}
+            {gameState.status === "Playing" && (
+              <button
+                onClick={handleDrawCard}
+                className="w-full rounded-lg bg-blue-600 px-6 py-2 font-bold text-white"
+              >
+                Draw Card
+              </button>
+            )}
+          </>
+        }
+      >
         <div className="flex flex-col space-y-2">
-          {gameState.status === "Waiting" && (
-            <button
-              onClick={handleStartGame}
-              className="w-full rounded-lg bg-green-600 px-6 py-2 font-bold text-white"
-            >
-              Start Game
-            </button>
-          )}
-          {gameState.status === "Playing" && (
-            <button
-              onClick={handleDrawCard}
-              className="w-full rounded-lg bg-blue-600 px-6 py-2 font-bold text-white"
-            >
-              Draw Card
-            </button>
-          )}
           <button
             onClick={handleFinishGame}
             className="w-full rounded-lg bg-red-600 px-6 py-2 font-bold text-white"

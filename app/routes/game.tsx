@@ -59,9 +59,9 @@ export default function GamePage({ loaderData }: Route.ComponentProps) {
       {!gameState ? (
         <Loading />
       ) : gameState.isHost ? (
-        <HostView gameState={gameState} />
+        <HostView gameState={gameState} playerId={playerId} />
       ) : (
-        <PlayerView gameState={gameState} />
+        <PlayerView gameState={gameState} playerId={playerId} />
       )}
     </>
   );

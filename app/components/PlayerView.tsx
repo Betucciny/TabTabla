@@ -12,10 +12,17 @@ import { LastWinnerBanner } from "./LastWinnerBanner";
 
 export interface PlayerViewProps {
   gameState: GameState;
+  playerId: string;
   children?: React.ReactNode;
+  topChildren?: React.ReactNode;
 }
 
-export default function PlayerView({ gameState, children }: PlayerViewProps) {
+export default function PlayerView({
+  gameState,
+  children,
+  playerId,
+  topChildren,
+}: PlayerViewProps) {
   //Marked Cards
   const [markedCards, setMarkedCards] = useMarkedCards(gameState.id);
   useEffect(() => {
@@ -37,14 +44,16 @@ export default function PlayerView({ gameState, children }: PlayerViewProps) {
   // Tabla Selection
   const [tablaCards, setSelectedTabla] = useState<Tabla>([]);
   const [showTablaSelectionModal, setShowTablaSelectionModal] = useState(false);
+  const playerTabla = gameState.players.find((player) => player.id === playerId)
+    ?.playerTabla!!;
   useEffect(() => {
     setSelectedTabla(
-      gameState.playerTabla.map(
+      playerTabla.map(
         (card) =>
           ALL_CARDS_MAP.find((card_complete) => card_complete.title === card)!!
       )
     );
-  }, [gameState.playerTabla]);
+  }, [playerTabla]);
 
   const handleConfirmTablaSelection = (selectedTabla: Tabla) => {
     const selectedTablaNames = selectedTabla.map((card) => card.title);
@@ -83,15 +92,18 @@ export default function PlayerView({ gameState, children }: PlayerViewProps) {
     };
   });
 
+  const playerStatus = gameState.players.find(
+    (player) => player.id === playerId
+  )?.status!!;
+
   return (
     <>
       <div className="flex h-screen flex-col bg-loteria-blue text-white">
         <BottomActionBar
-          playerStatus={gameState.playerStatus}
+          playerStatus={playerStatus}
           onLoteriaClick={handleLoteriaClick}
           disabled={
-            gameState.status !== "Playing" ||
-            gameState.playerStatus !== "Playing"
+            gameState.status !== "Playing" || playerStatus !== "Playing"
           }
           onHistoryClick={() =>
             alert(`History: ${gameState.drawnCards.join(", ")}`)
@@ -107,7 +119,9 @@ export default function PlayerView({ gameState, children }: PlayerViewProps) {
           </div>
 
           <aside className="flex flex-col p-4 w-full space-y-2 items-stretch justify-between h-full">
-            <div className="w-full space-y-1">
+            <div className="w-full space-y-1 flex flex-col">
+              {topChildren}
+
               {gameState.status === "Waiting" && (
                 <button
                   onClick={() => setShowTablaSelectionModal(true)}
