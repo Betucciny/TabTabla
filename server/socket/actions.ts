@@ -87,7 +87,7 @@ export function hostActions(io: SocketIOServer, socket: Socket) {
     const { gameId } = socket.data;
     try {
       await prisma.gameSession.delete({ where: { id: gameId } });
-      io.emit("game:destroyed", gameId);
+      io.to(gameId).emit("game:destroyed", gameId);
     } catch (error) {
       console.error(`Error destroying game ${gameId}:`, error);
     }
