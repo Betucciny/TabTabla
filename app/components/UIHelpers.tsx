@@ -88,9 +88,9 @@ export function PlayerList({
   return (
     <div className="my-6">
       <h3 className="text-xl font-bold">Players</h3>
-      <ul className="mt-2 space-y-2 space-x-2 flex flex-wrap">
+      <ul className="mt-2  flex flex-wrap">
         {players.map((player) => (
-          <li key={player.id} className="flex items-center gap-3">
+          <li key={player.id} className="flex items-center gap-3 m-2">
             <div className="h-8 w-8 rounded-full bg-white/20"></div>
             <span>{player.name}</span>
           </li>

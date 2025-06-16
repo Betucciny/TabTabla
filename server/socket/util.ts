@@ -24,7 +24,6 @@ export async function getFullGameState(
     status: gameSession.status,
     drawnCards: gameSession.drawnCards,
     hostId: gameSession.hostPlayerId,
-    isHost: gameSession.hostPlayerId === playerId,
     players: gameSession.players.map((p) => ({
       id: p.id,
       name: p.name,

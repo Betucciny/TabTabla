@@ -54,11 +54,13 @@ export default function GamePage({ loaderData }: Route.ComponentProps) {
     };
   }, [playerId, gameId]);
 
+  const isHost = gameState?.hostId === playerId;
+
   return (
     <>
       {!gameState ? (
         <Loading />
-      ) : gameState.isHost ? (
+      ) : isHost ? (
         <HostView gameState={gameState} playerId={playerId} />
       ) : (
         <PlayerView gameState={gameState} playerId={playerId} />

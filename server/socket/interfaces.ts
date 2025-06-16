@@ -4,7 +4,6 @@ export interface GameState {
   status: string;
   drawnCards: string[];
   hostId: string | null;
-  isHost: boolean;
   players: {
     id: string;
     name: string;
