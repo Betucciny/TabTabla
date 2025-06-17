@@ -50,25 +50,19 @@ export function CardToast({ gameState }: { gameState: GameState }) {
 
       const hideTimer = setTimeout(() => {
         setIsVisible(false);
-      }, 5000);
-
-      const nullifyTimer = setTimeout(() => {
-        setToastCard(null);
-      }, 8000);
+      }, 2000);
 
       return () => {
         clearTimeout(hideTimer);
-        clearTimeout(nullifyTimer);
       };
     }
+    if (gameState.status === "Waiting") {
+      setIsVisible(false);
+    }
     prevDrawnCardsCount.current = gameState.drawnCards.length;
-  }, [gameState.drawnCards, playCardSound]);
+  }, [gameState.drawnCards, playCardSound, gameState.status]);
 
   const card = toastCard;
-
-  if (!card) {
-    return null;
-  }
 
   return (
     <div
@@ -84,12 +78,16 @@ export function CardToast({ gameState }: { gameState: GameState }) {
             }
           `}
     >
-      <img
-        src={card.image}
-        alt={card.title}
-        className="h-28 w-auto rounded-md shadow-md"
-      />
-      <span className="text-3xl font-bold">{card.title}</span>
+      {card && (
+        <>
+          <img
+            src={card.image}
+            alt={card.title}
+            className="h-28 w-auto rounded-md shadow-md"
+          />
+          <span className="text-3xl font-bold">{card.title}</span>
+        </>
+      )}
     </div>
   );
 }

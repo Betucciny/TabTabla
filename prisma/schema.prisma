@@ -32,7 +32,6 @@ model PlayerInGame {
   gameSessionId String
   gameSession   GameSession  @relation(fields: [gameSessionId], references: [id], onDelete: Cascade)
   name          String       @db.VarChar(50)
-  socketId      String?
   playerTabla   String[]
   status        PlayerStatus @default(Waiting)
   isWinner      Boolean      @default(false)
@@ -50,7 +49,6 @@ enum GameStatus {
 
 enum PlayerStatus {
   Waiting
-  Ready
   Playing
   Eliminated
 }

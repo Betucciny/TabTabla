@@ -81,21 +81,18 @@ export function DrawnCardModal({
 }
 export function PlayerList({
   players,
+  isHeightLimited,
 }: {
   players: { id: string; name: string; status: string }[];
+  isHeightLimited: boolean;
 }) {
   const statusClasses: Record<string, string> = {
     Playing: "bg-green-500",
     Waiting: "bg-yellow-500",
-    Ready: "bg-blue-500",
   };
   const playerCounts = players.reduce(
     (counts, player) => {
-      if (
-        player.status === "Playing" ||
-        player.status === "Waiting" ||
-        player.status === "Ready"
-      ) {
+      if (player.status === "Playing" || player.status === "Waiting") {
         counts[player.status] = (counts[player.status] || 0) + 1;
       }
       counts.total += 1;
@@ -105,13 +102,13 @@ export function PlayerList({
   );
 
   return (
-    <div className="my-6 ">
+    <div className="my-6 w-full">
       <h3 className="text-xl font-bold">Players</h3>
       <div className="mb-4">
         <p className="text-sm font-medium">
           Total Players: {playerCounts.total}
         </p>
-        <div className="flex items-center gap-4 mt-2">
+        <div className="flex items-center justify-center gap-4 mt-2">
           <div className="flex items-center gap-2">
             <div className="h-4 w-4 rounded-full bg-green-500"></div>
             <span className="text-sm">Playing: {playerCounts.Playing}</span>
@@ -120,13 +117,13 @@ export function PlayerList({
             <div className="h-4 w-4 rounded-full bg-yellow-500"></div>
             <span className="text-sm">Waiting: {playerCounts.Waiting}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="h-4 w-4 rounded-full bg-blue-500"></div>
-            <span className="text-sm">Ready: {playerCounts.Ready}</span>
-          </div>
         </div>
       </div>
-      <ul className="mt-2 flex flex-wrap justify-around items-center md:max-h-24 overflow-scroll">
+      <ul
+        className={`mt-2 flex flex-wrap justify-around items-center overflow-y-scroll overflow-x-hidden ${
+          isHeightLimited ? "md:max-h-24" : ""
+        }`}
+      >
         {players.map((player) => (
           <li key={player.id} className="flex items-center gap-3 m-2">
             <div

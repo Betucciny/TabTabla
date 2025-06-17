@@ -2,12 +2,14 @@ import type { Server as SocketIOServer, Socket } from "socket.io";
 import { prisma } from "../prisma";
 import { broadcastGameState } from "./util"; // Import our new helper
 import { hostActions, playerActions } from "./actions";
+import { generateRandomTabla } from "../shared/util";
 
 export function registerSocketHandlers(io: SocketIOServer) {
   io.on("connection", (socket: Socket) => {
     console.log("Socket connected", socket.id);
     socket.on("player:joinRoom", async ({ gameId, playerId }) => {
       try {
+        const randomTabla = Math.floor(Math.random() * 100);
         const player = await prisma.playerInGame.findUnique({
           where: { id: playerId },
         });

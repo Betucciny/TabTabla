@@ -1,6 +1,7 @@
 import type { GameStatus, PlayerStatus } from "@prisma/client";
 import { prisma } from "~/server/prisma";
-import { generateUniqueShortCode, getShuffleCards } from "./util";
+import { generateShortCode, getShuffleCards } from "./util";
+import { generateRandomTabla } from "~/server/shared/util";
 
 export type GameResponse<T> = {
   data: T | null;
@@ -8,11 +9,23 @@ export type GameResponse<T> = {
   error: string | null;
 };
 
+async function generateUniqueCode() {
+  const codes = await prisma.gameSession.findMany({
+    select: { shortCode: true },
+  });
+  const existingCodes = codes.map((code) => code.shortCode);
+  let code = generateShortCode();
+  while (existingCodes.includes(code)) {
+    code = generateShortCode();
+  }
+  return code;
+}
+
 export async function createGame(
   playerName: string
 ): Promise<GameResponse<{ shortCode: string; playerId: string }>> {
   try {
-    const shortCode = generateUniqueShortCode();
+    const shortCode = await generateUniqueCode();
     const initialDeck = getShuffleCards();
 
     const newGameSession = await prisma.gameSession.create({
@@ -25,7 +38,7 @@ export async function createGame(
     const hostPlayer = await prisma.playerInGame.create({
       data: {
         name: playerName,
-        playerTabla: [],
+        playerTabla: generateRandomTabla().map((card) => card.title),
         gameSessionId: newGameSession.id,
       },
     });
@@ -74,11 +87,18 @@ export async function joinGame(
         error: "Game not found.",
       };
     }
-
+    const playerNames = game.players.map((player) => player.name);
+    if (playerNames.includes(playerName)) {
+      return {
+        data: null,
+        success: false,
+        error: "Player with this name already joined.",
+      };
+    }
     const player = await prisma.playerInGame.create({
       data: {
         name: playerName,
-        playerTabla: [],
+        playerTabla: generateRandomTabla().map((card) => card.title),
         gameSessionId: game.id,
       },
     });

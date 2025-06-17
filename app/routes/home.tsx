@@ -176,8 +176,8 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
                   className="w-full appearance-none rounded border px-3 py-2 text-center
                            text-xl font-mono tracking-widest uppercase text-gray-700
                            leading-tight shadow focus:outline-none focus:shadow-outline"
-                  placeholder="EJ. ABCDEFGHIJ"
-                  maxLength={10}
+                  placeholder="EJ. ABC1"
+                  maxLength={4}
                   required
                   disabled={isJoining}
                 />
@@ -213,11 +213,6 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
                 {isJoining ? "Joining..." : "Join Game"}
               </button>
             </Form>
-            {actionData?.error && isJoining && (
-              <p className="mt-2 text-center text-sm text-red-500">
-                Error: {actionData.message}
-              </p>
-            )}
           </div>
           <div className="flex items-center justify-center flex-col rounded-lg border border-gray-200 bg-gray-50 p-4 text-loteria-blue">
             <h3 className="mb-4 text-center text-2xl font-bold ">About</h3>

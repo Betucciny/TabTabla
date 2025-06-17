@@ -1,7 +1,7 @@
 import { ALL_CARDS_MAP, type Card, type Tabla } from "./cards";
 
-export function generateUniqueShortCode(): string {
-  const length = 10;
+export function generateShortCode(): string {
+  const length = 4;
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let result = "";
   for (let i = 0; i < length; i++) {
