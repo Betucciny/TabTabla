@@ -43,7 +43,6 @@ export default function PlayerView({
   const playerTabla = gameState.players.find((player) => player.id === playerId)
     ?.playerTabla!!;
   useEffect(() => {
-    console.log("playerTabla", playerTabla);
     setSelectedTabla(
       playerTabla.map(
         (card) =>

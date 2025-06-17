@@ -23,7 +23,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const session = await getSessionCookie(request.headers.get("Cookie"));
   const playerId = session.get("playerId");
 
-  console.log("Player ID:", playerId);
   if (!playerId) {
     return redirect("/");
   }

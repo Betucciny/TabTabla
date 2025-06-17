@@ -86,6 +86,12 @@ export function PlayerList({
   players: { id: string; name: string; status: string }[];
   isHeightLimited: boolean;
 }) {
+  const mockPlayers = Array.from({ length: 40 }, (_, index) => ({
+    id: `player-${index + 1}`,
+    name: `Player ${index + 1}`,
+    status: index % 2 === 0 ? "Playing" : "Waiting",
+  }));
+
   const statusClasses: Record<string, string> = {
     Playing: "bg-green-500",
     Waiting: "bg-yellow-500",
