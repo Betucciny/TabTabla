@@ -1,8 +1,3 @@
-
-
-
-
-
 # TabTabla
 
 TabTabla is a digital version of the classic Mexican bingo game, Lotería. This project was created to bring friends and family together online, offering a simple, fast, and authentic experience that captures the joy of shouting "¡LOTERÍA!" during gatherings.
@@ -36,12 +31,8 @@ TabTabla is a digital version of the classic Mexican bingo game, Lotería. This 
   - [X] Start game
   - [X] Leave game
 
-### Upcoming Features
-- [] **Incognito on Mark**: Maybe add a bean or a coin to the marked cards for better visibility.
+### Upcoming Features and bug fixes
+- [] **Mark**: Maybe add a bean or a coin to the marked cards for better visibility fix bug incognito instead of mark.
 - [] **Countdown on Game Start**: Add a countdown timer before the game begins to build anticipation.
 - [] **Sound of Cards Name**: Play the name of the card as it is drawn for an immersive experience.
 - [] **Toggle Sound**: Allow players to toggle sound effects on or off.
-- [] Incognito on mark? Maybe add a bean or a coin to the marked cards
-- [] Countdown on game Start
-- [] sound of cards name
-- [] toggle sound
