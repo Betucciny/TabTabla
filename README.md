@@ -36,3 +36,5 @@ TabTabla is a digital version of the classic Mexican bingo game, Lotería. This 
 - [] **Countdown on Game Start**: Add a countdown timer before the game begins to build anticipation.
 - [] **Sound of Cards Name**: Play the name of the card as it is drawn for an immersive experience.
 - [] **Toggle Sound**: Allow players to toggle sound effects on or off.
+- [] **Responsive Design**: Ensure the game is accessible on various devices and screen sizes.
+- [] **Accessibility**: Improve accessibility for users with disabilities.
