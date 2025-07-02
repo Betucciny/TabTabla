@@ -54,7 +54,6 @@ export default function GamePage({ loaderData }: Route.ComponentProps) {
       navigate("/");
     }
 
-    socket.connect();
     socket.emit("player:joinRoom", { playerId, gameId });
     socket.on("game:stateUpdate", onGameStateUpdate);
     socket.on("game:destroyed", onGameDestroyed);
@@ -62,7 +61,6 @@ export default function GamePage({ loaderData }: Route.ComponentProps) {
     return () => {
       socket.off("game:stateUpdate", onGameStateUpdate);
       socket.off("game:destroyed", onGameDestroyed);
-      socket.disconnect();
     };
   }, [playerId, gameId]);
 
