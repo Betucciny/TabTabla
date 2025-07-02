@@ -59,7 +59,9 @@ export default function LoteriaCard({ card, isMarked, onClick }: CardProps) {
       />
       {isMarked && (
         <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-green-500/60">
-          <span className="text-white text-6xl font-bold">X</span>
+          <span className="text-white text-6xl font-bold" translate="no">
+            X
+          </span>
         </div>
       )}
     </div>
