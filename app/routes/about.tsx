@@ -1,5 +1,12 @@
 import { Link } from "react-router";
 import { PapelPicadoBackground } from "~/components/PapelPicadoBackground";
+import type { Route } from "./+types/about";
+export function meta({ params }: Route.MetaArgs) {
+  return [
+    { title: `TabTabla Lotería - About` },
+    { name: "description", content: `Juego de Lotería | About` },
+  ];
+}
 
 export default function About() {
   return (
@@ -43,7 +50,7 @@ export default function About() {
                   <li>
                     Click "Create Game" on the home page to start a new lobby.
                   </li>
-                  <li>Share the 10-letter Game Code with your friends.</li>
+                  <li>Share the 4-letter Game Code with your friends.</li>
                   <li>
                     Once everyone has joined and chosen their tabla, click
                     "Start Game".
