@@ -231,7 +231,7 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
             >
               Buy Me a Coffee
             </a>
-            <p className="mt-2">A game by Roberto Ángel Herrera Rodríguez</p>
+            <p className="mt-2">A game by Roberto Ángel Herrera Rodríguez, based on a concept by Fernando Efrain Guzman Amaya</p>
           </div>
         </div>
       </div>
