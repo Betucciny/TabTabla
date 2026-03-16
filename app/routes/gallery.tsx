@@ -2,12 +2,15 @@ import { Link } from "react-router";
 import type { Route } from "./+types/gallery";
 import { ALL_CARDS_MAP } from "~/server/shared/cards";
 import { PapelPicadoBackground } from "~/components/PapelPicadoBackground";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "TabTabla Lotería - Galería de Cartas" },
-    { name: "description", content: "Galería completa de las 54 cartas de Lotería Mexicana" },
+    {
+      name: "description",
+      content: "Galería completa de las 54 cartas de Lotería Mexicana",
+    },
   ];
 }
 
@@ -26,6 +29,16 @@ export default function GalleryPage() {
     ? ALL_CARDS_MAP.find((card) => card.id === selectedCard)
     : null;
 
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && selectedCard) {
+        handleCloseModal();
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [selectedCard]);
+
   return (
     <>
       <PapelPicadoBackground position="top" />
@@ -37,9 +50,7 @@ export default function GalleryPage() {
             <h1 className="text-5xl md:text-6xl font-bold mb-4 [text-shadow:_2px_2px_4px_rgb(0_0_0_/_40%)]">
               Galería de Lotería
             </h1>
-            <p className="text-xl mb-6">
-              Las 54 cartas tradicionales de la Lotería Mexicana
-            </p>
+            <p className="text-xl mb-6">Las 54 cartas de la Lotería Mexicana</p>
             <Link
               to="/"
               className="inline-block bg-loteria-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
