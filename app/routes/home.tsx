@@ -139,49 +139,6 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
             </div>
           )}
           {/* Section to Create a New Game */}
-          <div className="mb-8 rounded-lg border border-gray-200 bg-loteria-cream p-4 ">
-            <h3 className="mb-4 text-center text-2xl font-bold text-loteria-blue">
-              I'm the Host
-            </h3>
-            <Form method="post">
-              <input type="hidden" name="intent" value="createGame" />
-              <div className="mb-6">
-                <label
-                  htmlFor="playerName"
-                  className="mb-2 block text-sm font-bold text-gray-700"
-                >
-                  Your Nickname:
-                </label>
-                <input
-                  type="text"
-                  id="playerName"
-                  name="playerName"
-                  value={playerName}
-                  onChange={(e) => setPlayerName(e.target.value)}
-                  className="w-full appearance-none rounded border px-3 py-2 text-gray-700
-                                       leading-tight shadow focus:outline-none focus:shadow-outline"
-                  placeholder="Enter your nickname here"
-                  maxLength={20}
-                  required
-                  disabled={isJoining}
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full rounded-lg bg-loteria-orange px-4 py-3 text-lg font-bold
-                         text-white transition duration-300 ease-in-out
-                         hover:scale-105 transform"
-                disabled={isCreating}
-              >
-                {isCreating ? "Creating Game..." : "Create New Game"}
-              </button>
-            </Form>
-            {actionData?.error && isCreating && (
-              <p className="mt-2 text-center text-sm text-red-500">
-                Error: {actionData.message}
-              </p>
-            )}
-          </div>
 
           {/* Section to Join an Existing Game */}
           <div className="mb-8 rounded-lg border border-gray-200 bg-gray-50 p-4">
@@ -243,6 +200,49 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
                 {isJoining ? "Joining..." : "Join Game"}
               </button>
             </Form>
+          </div>
+          <div className="mb-8 rounded-lg border border-gray-200 bg-loteria-cream p-4 ">
+            <h3 className="mb-4 text-center text-2xl font-bold text-loteria-blue">
+              I'm the Host
+            </h3>
+            <Form method="post">
+              <input type="hidden" name="intent" value="createGame" />
+              <div className="mb-6">
+                <label
+                  htmlFor="playerName"
+                  className="mb-2 block text-sm font-bold text-gray-700"
+                >
+                  Your Nickname:
+                </label>
+                <input
+                  type="text"
+                  id="playerName"
+                  name="playerName"
+                  value={playerName}
+                  onChange={(e) => setPlayerName(e.target.value)}
+                  className="w-full appearance-none rounded border px-3 py-2 text-gray-700
+                                                 leading-tight shadow focus:outline-none focus:shadow-outline"
+                  placeholder="Enter your nickname here"
+                  maxLength={20}
+                  required
+                  disabled={isJoining}
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full rounded-lg bg-loteria-orange px-4 py-3 text-lg font-bold
+                                   text-white transition duration-300 ease-in-out
+                                   hover:scale-105 transform"
+                disabled={isCreating}
+              >
+                {isCreating ? "Creating Game..." : "Create New Game"}
+              </button>
+            </Form>
+            {actionData?.error && isCreating && (
+              <p className="mt-2 text-center text-sm text-red-500">
+                Error: {actionData.message}
+              </p>
+            )}
           </div>
           <div className="flex items-center justify-center flex-col rounded-lg border border-gray-200 bg-gray-50 p-4 text-loteria-blue">
             <h3 className="mb-4 text-center text-2xl font-bold ">About</h3>
