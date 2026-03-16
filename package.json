@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@prisma/client": "^6.9.0",
-    "@react-router/express": "^7.5.3",
-    "@react-router/node": "^7.5.3",
+    "@react-router/express": "^7.13.1",
+    "@react-router/node": "^7.13.1",
     "compression": "^1.7.5",
     "express": "^5.1.0",
     "isbot": "^5.1.27",
@@ -18,14 +18,14 @@
     "node-cron": "^4.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router": "^7.5.3",
+    "react-router": "^7.13.1",
     "react-use-websocket": "^3.0.0",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "tailwindcss-animated": "^2.0.0"
   },
   "devDependencies": {
-    "@react-router/dev": "^7.5.3",
+    "@react-router/dev": "^7.13.1",
     "@tailwindcss/vite": "^4.1.4",
     "@tsconfig/node16": "^16.1.4",
     "@types/compression": "^1.7.5",

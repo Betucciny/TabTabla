@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 interface ModalBaseProps {
   isOpen: boolean;
   onConfirm: () => void;
@@ -13,6 +15,17 @@ export function ConfirmModal({
   title,
   children,
 }: ModalBaseProps) {
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isOpen) {
+        onCancel();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen, onCancel]);
+
   if (!isOpen) return null;
 
   return (

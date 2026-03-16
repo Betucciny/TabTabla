@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useSound } from "~/client/useSound";
+import { useSoundEffect } from "~/client/useSound";
 import { ALL_CARDS_MAP, type Card } from "~/server/shared/cards";
 import type { GameState } from "~/server/socket/interfaces";
 
@@ -23,8 +23,11 @@ export function LastDrawnCardBanner({ card }: { card: Card | null }) {
           className="aspect-[2/3] w-full h-auto"
         />
       </div>
-      <div className="mt-2 text-center text-md font-bold text-black bg-white rounded-lg flex-7/12 p-2 m-4">
-        {randomSentence}
+      <div className="flex flex-col mt-2 text-center text-md font-bold text-black bg-white rounded-lg flex-7/12 p-2 m-4">
+        <span className="text-lg font-black text-loteria-blue mb-2">
+          {card.title}
+        </span>
+        <span className="text-md">{randomSentence}</span>
       </div>
     </div>
   );
@@ -33,7 +36,7 @@ export function LastDrawnCardBanner({ card }: { card: Card | null }) {
 export function CardToast({ gameState }: { gameState: GameState }) {
   const [toastCard, setToastCard] = useState<Card | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const playCardSound = useSound("/card.mp3");
+  const playCardSound = useSoundEffect("/card.mp3");
   const prevDrawnCardsCount = useRef(gameState.drawnCards.length);
 
   useEffect(() => {

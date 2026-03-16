@@ -9,6 +9,11 @@
   --color-loteria-gray: rgba(128, 128, 128, 0.5);
 }
 
+/* Custom font for game code */
+.code-font {
+  font-family: 'Nova Mono', monospace;
+}
+
 .loader {
   width: 200px;
   height: 200px;

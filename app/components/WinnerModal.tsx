@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 interface WinnerModalProps {
   winnerName: string | null;
   onClose: () => void;
@@ -5,6 +7,17 @@ interface WinnerModalProps {
 }
 
 export function WinnerModal({ winnerName, onClose, isOpen }: WinnerModalProps) {
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isOpen) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (

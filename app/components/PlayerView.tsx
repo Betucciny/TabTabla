@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ALL_CARDS_MAP, type Card, type Tabla } from "~/server/shared/cards";
 import { PlayerTabla } from "./PlayerTabla";
 import type { GameState } from "~/server/socket/interfaces";
-import { BottomActionBar, PlayerList, Spacer } from "./UIHelpers";
+import { PlayerList, Spacer } from "./UIHelpers";
 import { socket } from "~/client/socket";
 import { useMarkedCards } from "~/client/useMarkCards";
 import { CardToast, LastDrawnCardBanner } from "./LastDrawnCard";
@@ -11,6 +11,7 @@ import { LastWinnerBanner } from "./LastWinnerBanner";
 import CodeShowcase from "./CodeShowcase";
 import { useNavigate } from "react-router";
 import { ConfirmModal } from "./ConfirmModals";
+import { SoundToggle } from "./SoundToggle";
 
 export interface PlayerViewProps {
   gameState: GameState;
@@ -27,6 +28,11 @@ export default function PlayerView({
 }: PlayerViewProps) {
   //Marked Cards
   const [markedCards, setMarkedCards] = useMarkedCards(gameState.id);
+
+  // Loading states for actions
+  const [isCallingLoteria, setIsCallingLoteria] = useState(false);
+  const [isRandomizingTabla, setIsRandomizingTabla] = useState(false);
+  const [isLeavingGame, setIsLeavingGame] = useState(false);
 
   function handleCardClick(cardName: string) {
     setMarkedCards((prev) => {
@@ -52,7 +58,10 @@ export default function PlayerView({
   }, [playerTabla]);
 
   function randomTabla() {
+    if (isRandomizingTabla) return;
+    setIsRandomizingTabla(true);
     socket.emit("player:randomTabla");
+    setTimeout(() => setIsRandomizingTabla(false), 1000);
   }
 
   // Last Drawn Card
@@ -64,7 +73,10 @@ export default function PlayerView({
 
   // Loteria
   function handleLoteriaClick() {
+    if (isCallingLoteria) return;
+    setIsCallingLoteria(true);
     socket.emit("player:loteria", { markedCards: markedCards });
+    setTimeout(() => setIsCallingLoteria(false), 2000);
   }
 
   const navigate = useNavigate();
@@ -94,7 +106,9 @@ export default function PlayerView({
   const [isLeaveModalOpen, setIsLeaveModalOpen] = useState(false);
 
   const handleConfirmLeaveGame = () => {
+    if (isLeavingGame) return;
     setIsLeaveModalOpen(false);
+    setIsLeavingGame(true);
     socket.emit("player:leave", playerId);
     navigate("/");
   };
@@ -115,18 +129,17 @@ export default function PlayerView({
       </ConfirmModal>
       <div className="bg-loteria-blue-light text-white min-h-screen flex justify-center items-center">
         <div className="flex flex-col max-w-[1200px] lg:max-h-[990px] z-10 bg-loteria-blue shadow-lg rounded-xl md:px-5 bg-opacity-50">
-          <BottomActionBar
-            playerStatus={playerStatus}
-            onLoteriaClick={handleLoteriaClick}
-            disabled={
-              gameState.status !== "Playing" ||
-              playerStatus !== "Playing" ||
-              markedCards.length !== 16
-            }
-            onHistoryClick={() =>
-              alert(`History: ${gameState.drawnCards.join(", ")}`)
-            }
-          />
+          <div className="flex flex-col gap-4 bg-loteria-blue p-4 shadow-lg z-50">
+            <div className="flex items-center justify-between bg-white/10 p-2 rounded-lg">
+              <div className="flex items-center">
+                <span className="text-sm font-medium text-white">Status:</span>
+                <span className="ml-2 text-sm font-bold text-loteria-orange">
+                  {playerStatus}
+                </span>
+              </div>
+              <SoundToggle />
+            </div>
+          </div>
           <main className="flex-grow flex flex-col md:flex-row items-stretch z-50 justify-around">
             <div className="w-full z-50 relative">
               {playerStatus === "Waiting" && (
@@ -137,6 +150,17 @@ export default function PlayerView({
                   cards={tablaCards}
                   markedCards={markedCards}
                   onCardClick={handleCardClick}
+                  canCallLoteria={
+                    gameState.status === "Playing" &&
+                    playerStatus === "Playing" &&
+                    markedCards.length === 16 &&
+                    !isCallingLoteria
+                  }
+                  onLoteriaClick={handleLoteriaClick}
+                  isCallingLoteria={isCallingLoteria}
+                  showRandomButton={gameState.status === "Waiting"}
+                  onRandomTabla={randomTabla}
+                  isRandomizing={isRandomizingTabla}
                 />
               </div>
             </div>
@@ -147,9 +171,14 @@ export default function PlayerView({
                 {gameState.status === "Waiting" && (
                   <button
                     onClick={randomTabla}
-                    className="hover:cursor-pointer rounded-lg bg-white/20 px-6 py-2 font-semibold transition hover:bg-white/30 w-full z-50"
+                    disabled={isRandomizingTabla}
+                    className={`rounded-lg bg-white/20 px-6 py-2 font-semibold transition w-full z-50 ${
+                      isRandomizingTabla
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:cursor-pointer hover:bg-white/30"
+                    }`}
                   >
-                    Random Tabla
+                    {isRandomizingTabla ? "Randomizing..." : "Random Tabla"}
                   </button>
                 )}
                 <CodeShowcase code={gameState.shortCode} />
@@ -167,9 +196,14 @@ export default function PlayerView({
                 {!isHost && (
                   <button
                     onClick={() => setIsLeaveModalOpen(true)}
-                    className="hover:cursor-pointer  w-full rounded-lg bg-red-500 px-6 py-2 font-bold text-white z-50"
+                    disabled={isLeavingGame}
+                    className={`w-full rounded-lg bg-red-500 px-6 py-2 font-bold text-white z-50 ${
+                      isLeavingGame
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:cursor-pointer"
+                    }`}
                   >
-                    Exit Game
+                    {isLeavingGame ? "Leaving..." : "Exit Game"}
                   </button>
                 )}
               </div>

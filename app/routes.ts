@@ -4,4 +4,5 @@ export default [
   index("./routes/home.tsx"),
   route("game/:shortCode", "./routes/game.tsx"),
   route("about", "./routes/about.tsx"),
+  route("gallery", "./routes/gallery.tsx"),
 ] satisfies RouteConfig;

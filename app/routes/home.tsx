@@ -1,7 +1,13 @@
-import { Form, Link, redirect, useNavigation } from "react-router";
+import {
+  Form,
+  Link,
+  redirect,
+  useNavigation,
+  useSearchParams,
+} from "react-router";
 import type { Route } from "./+types/home";
 import { useEffect, useState } from "react";
-import { createGame, joinGame } from "~/.server/game";
+import { createGame, getGame, joinGame } from "~/.server/game";
 import { commitSessionCookie, getSessionCookie } from "~/.server/cookies";
 import { PapelPicadoBackground } from "~/components/PapelPicadoBackground";
 
@@ -19,9 +25,7 @@ interface ActionErrorData {
 
 export async function action({
   request,
-}: {
-  request: Request;
-}): Promise<ActionErrorData | Response> {
+}: Route.ActionArgs): Promise<ActionErrorData | Response> {
   const formData = await request.formData();
   const intent = formData.get("intent");
 
@@ -65,8 +69,27 @@ export async function action({
   throw new Response("Invalid form submission intent", { status: 400 });
 }
 
+export async function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const codeFromUrl = url.searchParams.get("code");
+
+  if (codeFromUrl) {
+    const session = await getSessionCookie(request.headers.get("Cookie"));
+    const playerId = session.get("playerId");
+
+    if (playerId) {
+      const gameResult = await getGame(codeFromUrl, playerId);
+      if (gameResult.success && gameResult.data) {
+        return redirect(`/game/${codeFromUrl}`);
+      }
+    }
+  }
+  return null;
+}
+
 export default function LandingPage({ actionData }: Route.ComponentProps) {
   const navigation = useNavigation();
+  const [searchParams] = useSearchParams();
 
   const isCreating = navigation.formData?.get("intent") === "createGame";
   const isJoining = navigation.formData?.get("intent") === "joinGame";
@@ -85,6 +108,13 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    const codeFromUrl = searchParams.get("code");
+    if (codeFromUrl) {
+      setJoinCode(codeFromUrl.toUpperCase());
+    }
+  }, [searchParams]);
 
   return (
     <>
@@ -217,6 +247,13 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
           <div className="flex items-center justify-center flex-col rounded-lg border border-gray-200 bg-gray-50 p-4 text-loteria-blue">
             <h3 className="mb-4 text-center text-2xl font-bold ">About</h3>
             <Link
+              to="/gallery"
+              className="hover:text-loteria-orange underline mx-2"
+            >
+              Card Gallery
+            </Link>
+            &bull;
+            <Link
               to="/about"
               className="hover:text-loteria-orange underline mx-2"
             >
@@ -231,7 +268,10 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
             >
               Buy Me a Coffee
             </a>
-            <p className="mt-2">A game by Roberto Ángel Herrera Rodríguez</p>
+            <p className="mt-2">
+              A Game by Roberto Ángel Herrera Rodríguez <br />
+              Inspired by Fernando Efrain Guzman Amaya
+            </p>
           </div>
         </div>
       </div>

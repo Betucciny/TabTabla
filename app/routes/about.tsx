@@ -106,21 +106,9 @@ export default function About() {
                 className="mt-6 inline-flex items-center gap-3 rounded-lg bg-loteria-orange px-8 py-4 text-xl font-bold text-white shadow-lg transition hover:scale-105 hover:bg-orange-500"
               >
                 {/* Coffee Cup Icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.926 5.074a.75.75 0 00-1.06-1.06l-1.012 1.012a4.486 4.486 0 00-6.364 0L8.478 4.014a.75.75 0 00-1.06 1.06L8.43 6.086a4.5 4.5 0 000 6.364l-1.012 1.012a.75.75 0 001.06 1.06l1.012-1.012a4.486 4.486 0 006.364 0l1.012 1.012a.75.75 0 001.06-1.06l-1.012-1.012a4.5 4.5 0 000-6.364l1.012-1.012zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                  />
-                </svg>
-                Buy Me a Coffee
+                Love TabTabla Loteria?
+                <br />
+                Help to keep it alive!
               </a>
               <a
                 href="https://www.github.com/betucciny"
@@ -141,8 +129,12 @@ export default function About() {
                     clipRule="evenodd"
                   />
                 </svg>
-                My GitHub
+                Meet the creator: GitHub
               </a>
+              <p className="mt-2">
+                A Game by Roberto Ángel Herrera Rodríguez <br />
+                Inspired by Fernando Efrain Guzman Amaya
+              </p>
             </div>
           </section>
 
