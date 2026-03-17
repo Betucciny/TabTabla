@@ -34,6 +34,12 @@ export default function PlayerView({
   const [isRandomizingTabla, setIsRandomizingTabla] = useState(false);
   const [isLeavingGame, setIsLeavingGame] = useState(false);
 
+  // Swipe handling state
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
+    null,
+  );
+  const [swipeDirection, setSwipeDirection] = useState<string | null>(null);
+
   function handleCardClick(cardName: string) {
     setMarkedCards((prev) => {
       if (prev.includes(cardName)) {
@@ -46,14 +52,15 @@ export default function PlayerView({
 
   // Tabla Selection
   const [tablaCards, setSelectedTabla] = useState<Tabla>([]);
-  const playerTabla = gameState.players.find((player) => player.id === playerId)
-    ?.playerTabla!!;
+  const playerTabla = gameState.players.find(
+    (player) => player.id === playerId,
+  )?.playerTabla!!;
   useEffect(() => {
     setSelectedTabla(
       playerTabla.map(
         (card) =>
-          ALL_CARDS_MAP.find((card_complete) => card_complete.title === card)!!
-      )
+          ALL_CARDS_MAP.find((card_complete) => card_complete.title === card)!!,
+      ),
     );
   }, [playerTabla]);
 
@@ -63,6 +70,41 @@ export default function PlayerView({
     socket.emit("player:randomTabla");
     setTimeout(() => setIsRandomizingTabla(false), 1000);
   }
+
+  // Swipe handlers for overlay
+  const handleTouchStart = (e: React.TouchEvent) => {
+    console.log("Touch Start");
+    if (gameState.status !== "Waiting") return;
+    const touch = e.touches[0];
+    setTouchStart({ x: touch.clientX, y: touch.clientY });
+    setSwipeDirection(null);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchStart || gameState.status !== "Waiting") return;
+
+    const touch = e.touches[0];
+    const deltaX = touch.clientX - touchStart.x;
+    const deltaY = touch.clientY - touchStart.y;
+
+    // Determine swipe direction (horizontal)
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 30) {
+      setSwipeDirection(deltaX > 0 ? "right" : "left");
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (gameState.status !== "Waiting") return;
+
+    if (
+      (swipeDirection === "left" || swipeDirection === "right") &&
+      !isRandomizingTabla
+    ) {
+      randomTabla();
+    }
+    setTouchStart(null);
+    setSwipeDirection(null);
+  };
 
   // Last Drawn Card
   const staticBannerCardName =
@@ -96,7 +138,7 @@ export default function PlayerView({
   });
 
   const playerStatus = gameState.players.find(
-    (player) => player.id === playerId
+    (player) => player.id === playerId,
   )?.status!!;
 
   const isHost =
@@ -143,7 +185,19 @@ export default function PlayerView({
           <main className="flex-grow flex flex-col md:flex-row items-stretch z-50 justify-around">
             <div className="w-full z-50 relative">
               {playerStatus === "Waiting" && (
-                <div className="absolute inset-0 bg-loteria-gray z-50 rounded-lg m-2"></div>
+                <div
+                  className="absolute inset-0 bg-loteria-gray z-50 rounded-lg m-2 flex items-center justify-center"
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
+                >
+                  {(swipeDirection === "left" ||
+                    swipeDirection === "right") && (
+                    <div className="text-white text-2xl font-bold animate-bounce bg-blue-500 px-6 py-3 rounded-lg">
+                      Release to randomize!
+                    </div>
+                  )}
+                </div>
               )}
               <div className="flex items-center h-full">
                 <PlayerTabla

@@ -7,11 +7,13 @@
   --color-loteria-orange: #f5842a;
   --color-loteria-cream: #fbf8f3;
   --color-loteria-gray: rgba(128, 128, 128, 0.5);
+
+  --font-family-rubik: "Rubik", sans-serif;
 }
 
 /* Custom font for game code */
 .code-font {
-  font-family: 'Nova Mono', monospace;
+  font-family: "Nova Mono", monospace;
 }
 
 .loader {

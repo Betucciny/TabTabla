@@ -22,6 +22,9 @@ export function LastDrawnCardBanner({ card }: { card: Card | null }) {
           alt={card.title}
           className="aspect-[2/3] w-full h-auto"
         />
+        <div className="absolute -top-2 -left-2 bg-loteria-orange text-white font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-lg">
+          {card.id}
+        </div>
       </div>
       <div className="flex flex-col mt-2 text-center text-md font-bold text-black bg-white rounded-lg flex-7/12 p-2 m-4">
         <span className="text-lg font-black text-loteria-blue mb-2">
@@ -88,6 +91,9 @@ export function CardToast({ gameState }: { gameState: GameState }) {
             alt={card.title}
             className="h-28 w-auto rounded-md shadow-md"
           />
+          <div className="absolute -top-1 -left-1 bg-loteria-orange text-white font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-lg">
+            {card.id}
+          </div>
           <span className="text-3xl font-bold">{card.title}</span>
         </>
       )}

@@ -270,7 +270,8 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
             </a>
             <p className="mt-2">
               A Game by Roberto Ángel Herrera Rodríguez <br />
-              Inspired by Fernando Efrain Guzman Amaya
+              Inspired by Fernando Efrain Guzman Amaya <br />
+              Images by Mauro Julio Lunari
             </p>
           </div>
         </div>

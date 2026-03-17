@@ -50,7 +50,10 @@ export default function GalleryPage() {
             <h1 className="text-5xl md:text-6xl font-bold mb-4 [text-shadow:_2px_2px_4px_rgb(0_0_0_/_40%)]">
               Galería de Lotería
             </h1>
-            <p className="text-xl mb-6">Las 54 cartas de la Lotería Mexicana</p>
+            <p className="text-xl mb-6">
+              The 54 cards of the Mexican Lotería <br />
+              Images by Mauro Julio Lunari
+            </p>
             <Link
               to="/"
               className="inline-block bg-loteria-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
@@ -80,7 +83,7 @@ export default function GalleryPage() {
                     </p>
                   </div>
                   {/* Card Number Badge */}
-                  <div className="absolute top-2 left-2 bg-loteria-orange text-white font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-lg">
+                  <div className="absolute -top-2 -left-2 bg-loteria-orange text-white font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-lg">
                     {card.id}
                   </div>
                 </div>

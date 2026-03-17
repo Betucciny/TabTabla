@@ -20,7 +20,7 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nova+Mono&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Rubik:wght@300..900&family=Nova+Mono&display=swap",
   },
 ];
 
@@ -33,7 +33,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-loteria-blue-light">
+      <body
+        className="bg-loteria-blue-light"
+        style={{ fontFamily: "Rubik, sans-serif" }}
+      >
         {children}
         <ScrollRestoration />
         <Scripts />

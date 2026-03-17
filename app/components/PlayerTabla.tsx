@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { Card } from "~/.server/cards";
 
 type PlayerTablaProps = {
@@ -24,55 +23,8 @@ export function PlayerTabla({
   onRandomTabla,
   isRandomizing = false,
 }: PlayerTablaProps) {
-  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
-    null
-  );
-  const [swipeDirection, setSwipeDirection] = useState<string | null>(null);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    console.log("Start Touch");
-    const touch = e.touches[0];
-    setTouchStart({ x: touch.clientX, y: touch.clientY });
-    setSwipeDirection(null);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    console.log("Touch Move");
-    if (!touchStart) return;
-
-    const touch = e.touches[0];
-    const deltaX = touch.clientX - touchStart.x;
-    const deltaY = touch.clientY - touchStart.y;
-
-    // Determine swipe direction (horizontal)
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      if (Math.abs(deltaX) > 50) {
-        setSwipeDirection(deltaX > 0 ? "right" : "left");
-      }
-    }
-  };
-
-  const handleTouchEnd = () => {
-    console.log("Touch End");
-    if (
-      (swipeDirection === "left" || swipeDirection === "right") &&
-      showRandomButton &&
-      onRandomTabla &&
-      !isRandomizing
-    ) {
-      onRandomTabla();
-    }
-    setTouchStart(null);
-    setSwipeDirection(null);
-  };
-
   return (
-    <div
-      className="relative"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
+    <div className="relative">
       {/* Random Tabla Button - Top Right */}
       {showRandomButton && onRandomTabla && (
         <div className="absolute top-2 right-2 z-50 pointer-events-none">
@@ -106,16 +58,6 @@ export function PlayerTabla({
         </div>
       )}
 
-      {/* Swipe indicator */}
-      {(swipeDirection === "left" || swipeDirection === "right") &&
-        showRandomButton && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-40 bg-blue-500/20">
-            <div className="text-white text-2xl font-bold animate-bounce">
-              Release to randomize!
-            </div>
-          </div>
-        )}
-
       <div className="grid grid-cols-4 gap-2 p-4 ">
         {cards.length === 0
           ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
@@ -130,7 +72,7 @@ export function PlayerTabla({
                     className="aspect-[2/3] w-full h-auto"
                   />
                 </div>
-              )
+              ),
             )
           : cards.map((card) => (
               <LoteriaCard
@@ -185,6 +127,9 @@ export default function LoteriaCard({ card, isMarked, onClick }: CardProps) {
         <p className="text-white text-center text-xs md:text-sm font-bold [text-shadow:_1px_1px_2px_rgb(0_0_0_/_80%)]">
           {card.title}
         </p>
+      </div>
+      <div className="absolute -top-2 -left-2 bg-loteria-orange text-white font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-lg">
+        {card.id}
       </div>
 
       {isMarked && (
