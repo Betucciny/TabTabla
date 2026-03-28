@@ -54,8 +54,14 @@ export default function GalleryPage() {
             </h1>
             <p className="text-xl mb-6">
               The 54 cards of the Mexican Lotería <br />
-              Artwork by Mauro Julio Lunari
+              Artwork by Mauro Julio Lunari (colored pencil technique)
             </p>
+            <Link
+              to="/"
+              className="inline-block bg-loteria-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+            >
+              ← Volver al Inicio
+            </Link>
           </div>
 
           {/* Cards Grid */}
@@ -63,6 +69,7 @@ export default function GalleryPage() {
             {ALL_CARDS_MAP.map((card) => (
               <LoteriaCard
                 card={card}
+                key={card.id}
                 onClick={() => handleCardClick(card.id)}
               />
             ))}

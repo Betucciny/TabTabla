@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { PapelPicadoBackground } from "~/components/PapelPicadoBackground";
 import { PageNavigation } from "~/components/PageNavigation";
 import type { Route } from "./+types/about";
+
 export function meta({ params }: Route.MetaArgs) {
   return [
     { title: `TabTabla® Lotería - About` },
@@ -10,6 +11,61 @@ export function meta({ params }: Route.MetaArgs) {
 }
 
 export default function About() {
+  const teamMembers = [
+    {
+      name: "Fernando Efrain Guzman Amaya",
+      role: "Mexican cultural soul from South Korea, the heart of the lotería",
+      photo: "/profiles/Fer.png",
+      links: [
+        {
+          platform: "LinkedIn",
+          url: "https://www.linkedin.com/in/fernando-guzman-global-leader/",
+          icon: "💼",
+        },
+        {
+          platform: "Instagram",
+          url: "https://www.instagram.com/efrazmxkr/",
+          icon: "📸",
+        },
+        {
+          platform: "WhatsApp",
+          url: "https://wa.me/19512613351",
+          icon: "💬",
+        },
+      ],
+    },
+    {
+      name: "Roberto Ángel Herrera Rodríguez",
+      role: "The code wizard who brought digital lotería to life",
+      photo: "/profiles/Rob.png",
+      links: [
+        {
+          platform: "GitHub",
+          url: "https://github.com/betucciny",
+          icon: "💻",
+        },
+
+        {
+          platform: "LinkedIn",
+          url: "https://www.linkedin.com/in/roberto-a-herrera-1bb656232/",
+          icon: "💼",
+        },
+      ],
+    },
+    {
+      name: "Mauro Julio Lunari",
+      role: "Argentine illustrator from Córdoba, Argentina breathing life into every card",
+      photo: "/profiles/Mau.png",
+      links: [
+        {
+          platform: "Instagram",
+          url: "https://www.instagram.com/morpheusartcenter?igsh=MXZkNWs5N3ExeHU3dg==",
+          icon: "🎨",
+        },
+      ],
+    },
+  ];
+
   return (
     <>
       <PapelPicadoBackground position="top" />
@@ -61,40 +117,56 @@ export default function About() {
             </div>
           </section>
 
-          <section className="mt-12 text-center">
-            <h2 className="mb-4 border-b-2 border-white/20 pb-2 text-3xl font-bold">
-              The Team
+          <section className="mt-12">
+            <h2 className="mb-6 border-b-2 border-white/20 pb-2 text-3xl font-bold text-center">
+              Meet the Compas!
             </h2>
-            <div className="space-y-4">
-              <p className="text-lg">
-                <strong>Developer:</strong> Roberto Ángel Herrera Rodríguez
-              </p>
-              <p className="text-lg">
-                <strong>Inspired by:</strong> Fernando Efrain Guzman Amaya
-              </p>
-              <p className="text-lg">
-                <strong>Card Images:</strong> Mauro Julio Lunari
-              </p>
-              <a
-                href="https://www.github.com/betucciny"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center gap-3 rounded-lg bg-loteria-orange px-8 py-4 text-xl font-bold text-white shadow-lg transition hover:scale-105 hover:bg-orange-500"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
+            <div className="space-y-8">
+              {teamMembers.map((member, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col md:flex-row items-center md:items-start gap-6 p-6 bg-gradient-to-br from-loteria-cream to-white rounded-lg shadow-lg border-2 border-loteria-orange/20"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.983 1.03-2.682-.103-.253-.447-1.27.098-2.647 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.91-1.296 2.75-1.026 2.75-1.026.545 1.377.202 2.394.1 2.647.64.7 1.03 1.591 1.03 2.682 0 3.842-2.337 4.687-4.565 4.935.36.31.682.92.682 1.855 0 1.34-.012 2.42-.012 2.748 0 .267.18.578.688.48C19.138 20.164 22 16.418 22 12c0-5.523-4.477-10-10-10z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                Visit on GitHub
-              </a>
+                  {/* Photo - Left Side */}
+                  <div className="flex-shrink-0">
+                    <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-loteria-orange shadow-lg">
+                      <img
+                        src={member.photo}
+                        alt={member.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          // Fallback to a placeholder if image doesn't exist
+                          e.currentTarget.src = "/question.png";
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Info - Right Side */}
+                  <div className="flex-1 text-center md:text-left">
+                    <h3 className="text-2xl font-bold text-loteria-blue mb-2">
+                      {member.name}
+                    </h3>
+                    <p className="text-lg text-gray-700 italic mb-4">
+                      {member.role}
+                    </p>
+                    <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+                      {member.links.map((link, linkIndex) => (
+                        <a
+                          key={linkIndex}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-loteria-orange text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 font-semibold text-sm"
+                        >
+                          <span>{link.icon}</span>
+                          <span>{link.platform}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
 

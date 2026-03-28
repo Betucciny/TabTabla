@@ -274,10 +274,13 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
                 Support the Project
               </Link>
             </div>
-            <p className="mt-4">
-              A Game by Roberto Ángel Herrera Rodríguez <br />
-              Inspired by Fernando Efrain Guzman Amaya <br />
-              Images by Mauro Julio Lunari
+            <p className="mt-4 text-center">
+              Based on a concept by{" "}
+              <strong>Fernando Efrain Guzman Amaya</strong>
+              <br />A Game developed by{" "}
+              <strong>Roberto Ángel Herrera Rodríguez </strong>
+              <br />
+              Illustrated by <strong>Mauro Julio Lunari</strong>
             </p>
           </div>
         </div>
