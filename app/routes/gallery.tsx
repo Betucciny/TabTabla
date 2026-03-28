@@ -50,7 +50,7 @@ export default function GalleryPage() {
           {/* Header */}
           <div className="text-center mb-10">
             <h1 className="text-5xl md:text-6xl font-bold mb-4 [text-shadow:_2px_2px_4px_rgb(0_0_0_/_40%)]">
-              Galería de Lotería
+              Card Gallery
             </h1>
             <p className="text-xl mb-6">
               The 54 cards of the Mexican Lotería <br />
@@ -60,7 +60,7 @@ export default function GalleryPage() {
               to="/"
               className="inline-block bg-loteria-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
             >
-              ← Volver al Inicio
+              ← Go Home
             </Link>
           </div>
 
