@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSoundEffect } from "~/client/useSound";
 import { ALL_CARDS_MAP, type Card } from "~/server/shared/cards";
 import type { GameState } from "~/server/socket/interfaces";
+import LoteriaCard from "./PlayerTabla";
 
 export function LastDrawnCardBanner({ card }: { card: Card | null }) {
   if (!card)

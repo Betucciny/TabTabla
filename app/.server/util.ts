@@ -1,4 +1,4 @@
-import { ALL_CARDS_MAP, type Card, type Tabla } from "./cards";
+import { ALL_CARDS_MAP, type Card, type Tabla } from "~/server/shared/cards";
 
 export function generateShortCode(): string {
   const length = 4;

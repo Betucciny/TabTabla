@@ -16,6 +16,11 @@
   font-family: "Nova Mono", monospace;
 }
 
+/* Custom font for card numbers */
+.pacifico-font {
+  font-family: "Pacifico", cursive;
+}
+
 .loader {
   width: 200px;
   height: 200px;

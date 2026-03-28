@@ -1,4 +1,4 @@
-import type { Card } from "~/.server/cards";
+import type { Card } from "~/server/shared/cards";
 
 type PlayerTablaProps = {
   cards: Card[];
@@ -74,14 +74,16 @@ export function PlayerTabla({
                 </div>
               ),
             )
-          : cards.map((card) => (
-              <LoteriaCard
-                key={card.title}
-                card={card}
-                isMarked={markedCards.includes(card.title)}
-                onClick={() => onCardClick(card.title)}
-              />
-            ))}
+          : cards
+              .filter((card) => card !== null && card !== undefined)
+              .map((card) => (
+                <LoteriaCard
+                  key={card.title}
+                  card={card}
+                  isMarked={markedCards.includes(card.title)}
+                  onClick={() => onCardClick(card.title)}
+                />
+              ))}
       </div>
 
       {/* Loteria Button - Center */}
@@ -106,11 +108,19 @@ export function PlayerTabla({
 
 interface CardProps {
   card: Card;
-  isMarked: boolean;
-  onClick: () => void;
+  isMarked?: boolean;
+  showName?: boolean;
+  showNumber?: boolean;
+  onClick?: () => void;
 }
 
-export default function LoteriaCard({ card, isMarked, onClick }: CardProps) {
+export default function LoteriaCard({
+  card,
+  isMarked = false,
+  showName = true,
+  showNumber = true,
+  onClick,
+}: CardProps) {
   return (
     <div
       onClick={onClick}
@@ -119,19 +129,21 @@ export default function LoteriaCard({ card, isMarked, onClick }: CardProps) {
       <img
         src={card.image}
         alt={card.title}
-        className="aspect-[2/3] w-full h-auto"
+        className="aspect-[2/3] w-full h-auto rounded-md"
       />
 
-      {/* Card Title Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-loteria-blue via-loteria-blue/95 to-transparent px-2 py-1 rounded-b-lg">
-        <p className="text-white text-center text-xs md:text-sm font-bold [text-shadow:_1px_1px_2px_rgb(0_0_0_/_80%)]">
-          {card.title}
-        </p>
-      </div>
-      <div className="absolute -top-2 -left-2 bg-loteria-orange text-white font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-lg">
-        {card.id}
-      </div>
-
+      {showName && (
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-loteria-blue via-loteria-blue/95 to-transparent px-2 py-1 rounded-b-lg">
+          <p className="text-white text-center text-xs md:text-sm font-bold [text-shadow:_1px_1px_2px_rgb(0_0_0_/_80%)]">
+            {card.title}
+          </p>
+        </div>
+      )}
+      {showNumber && (
+        <div className="absolute -top-2 -left-2 bg-loteria-orange text-white font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-lg">
+          {card.id}
+        </div>
+      )}
       {isMarked && (
         <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-green-500/60">
           <span className="text-white text-6xl font-bold" translate="no">

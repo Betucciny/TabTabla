@@ -6,7 +6,7 @@ export function PapelPicadoBackground({
   position,
 }: PapelPicadoBackgroundProps) {
   const baseClasses =
-    "fixed left-0 w-full pointer-events-none z-10 max-h-[50px]";
+    "fixed left-0 w-full pointer-events-none z-100 max-h-[50px]";
   const positionClasses = position === "top" ? "top-0" : "bottom-0";
   const rotationClasses = position === "bottom" ? "rotate-180" : "";
 

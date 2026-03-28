@@ -14,7 +14,7 @@ import { useImagePreloader } from "~/client/useImagePreloader";
 
 export function meta({ params }: Route.MetaArgs) {
   return [
-    { title: `TabTabla Lotería - ${params.shortCode}` },
+    { title: `TabTabla® Lotería - ${params.shortCode}` },
     { name: "description", content: `Juego de Lotería | ${params.shortCode}` },
   ];
 }

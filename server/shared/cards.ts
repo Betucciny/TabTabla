@@ -86,8 +86,8 @@ export const ALL_CARDS_MAP: Card[] = [
   },
   {
     id: 13,
-    title: "El Gorrito",
-    sentences: ["Para el charro bajo el sol."],
+    title: "El Charro",
+    sentences: ["Jinete fino y sombrero elegante."],
     image: "/images/13.jpg",
   },
   {
@@ -110,14 +110,14 @@ export const ALL_CARDS_MAP: Card[] = [
   },
   {
     id: 17,
-    title: "El Bandolón",
-    sentences: ["Suena fuerte en la noche sin fin."],
+    title: "La Mandolina",
+    sentences: ["El alma de la estudiantina."],
     image: "/images/17.jpg",
   },
   {
     id: 18,
-    title: "El Violoncello",
-    sentences: ["Gordo ronco con voz que retumba y no deja de sonar."],
+    title: "El Violín",
+    sentences: ["De madera fina y alma de poeta que enamora."],
     image: "/images/18.jpg",
   },
   {
@@ -142,7 +142,7 @@ export const ALL_CARDS_MAP: Card[] = [
   },
   {
     id: 22,
-    title: "La Bota",
+    title: "Las Botas",
     sentences: ["Charras con espuelas que suenan al trotar."],
     image: "/images/22.jpg",
   },
@@ -196,14 +196,14 @@ export const ALL_CARDS_MAP: Card[] = [
   },
   {
     id: 31,
-    title: "Las Jaras",
-    sentences: ["Las utiliza cupido para enamorar."],
+    title: "Las Lanzas",
+    sentences: ["Lanzas de amor que traspasan el corazón."],
     image: "/images/31.jpg",
   },
   {
     id: 32,
-    title: "El Músico",
-    sentences: ["Toca rico y con ritmo."],
+    title: "El Mariachi",
+    sentences: ["Con guitarra en mano y voz que enamora."],
     image: "/images/32.jpg",
   },
   {
@@ -238,7 +238,7 @@ export const ALL_CARDS_MAP: Card[] = [
   },
   {
     id: 38,
-    title: "El Apache",
+    title: "El Azteca",
     sentences: [
       "Con su penacho y cara de fiera, baila salvaje en su danza tan bella.",
     ],
@@ -258,7 +258,7 @@ export const ALL_CARDS_MAP: Card[] = [
   },
   {
     id: 41,
-    title: "La Rosa",
+    title: "Las Rosas",
     sentences: ["Rojas y bellas, amores que alegran al corazón."],
     image: "/images/41.jpg",
   },
@@ -314,20 +314,20 @@ export const ALL_CARDS_MAP: Card[] = [
   },
   {
     id: 50,
-    title: "El Pescado",
+    title: "El Pez",
     sentences: ["El que muere por su propia boca..."],
     image: "/images/50.jpg",
   },
   {
     id: 51,
-    title: "La Palma",
+    title: "Las Palmas",
     sentences: ["Sombra fresca para el calor tropical."],
     image: "/images/51.jpg",
   },
   {
     id: 52,
-    title: "La Maceta",
-    sentences: ["Sirve para poner flores y plantas."],
+    title: "Las Macetas",
+    sentences: ["Sirven para poner flores y plantas."],
     image: "/images/52.jpg",
   },
   {

@@ -2,11 +2,13 @@ import { Link } from "react-router";
 import type { Route } from "./+types/gallery";
 import { ALL_CARDS_MAP } from "~/server/shared/cards";
 import { PapelPicadoBackground } from "~/components/PapelPicadoBackground";
+import { PageNavigation } from "~/components/PageNavigation";
 import { useEffect, useState } from "react";
+import LoteriaCard from "~/components/PlayerTabla";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "TabTabla Lotería - Galería de Cartas" },
+    { title: "TabTabla® Lotería - Galería de Cartas" },
     {
       name: "description",
       content: "Galería completa de las 54 cartas de Lotería Mexicana",
@@ -52,44 +54,22 @@ export default function GalleryPage() {
             </h1>
             <p className="text-xl mb-6">
               The 54 cards of the Mexican Lotería <br />
-              Images by Mauro Julio Lunari
+              Artwork by Mauro Julio Lunari
             </p>
-            <Link
-              to="/"
-              className="inline-block bg-loteria-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
-            >
-              ← Volver al Inicio
-            </Link>
           </div>
 
           {/* Cards Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
             {ALL_CARDS_MAP.map((card) => (
-              <div
-                key={card.id}
+              <LoteriaCard
+                card={card}
                 onClick={() => handleCardClick(card.id)}
-                className="cursor-pointer transform transition-all duration-200 hover:scale-105 hover:z-10"
-              >
-                <div className="relative rounded-lg border-2 border-white bg-white p-1 shadow-lg hover:shadow-2xl">
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    className="aspect-[2/3] w-full h-auto rounded"
-                  />
-                  {/* Card Title Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-loteria-blue via-loteria-blue/95 to-transparent px-2 py-1 rounded-b-lg">
-                    <p className="text-white text-center text-xs md:text-sm font-bold [text-shadow:_1px_1px_2px_rgb(0_0_0_/_80%)]">
-                      {card.title}
-                    </p>
-                  </div>
-                  {/* Card Number Badge */}
-                  <div className="absolute -top-2 -left-2 bg-loteria-orange text-white font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-lg">
-                    {card.id}
-                  </div>
-                </div>
-              </div>
+              />
             ))}
           </div>
+
+          {/* Navigation */}
+          <PageNavigation currentPage="gallery" />
         </div>
 
         {/* Modal for Card Details */}
@@ -124,16 +104,16 @@ export default function GalleryPage() {
               </button>
 
               {/* Card Number Badge */}
-              <div className="absolute top-4 left-4 bg-loteria-orange text-white font-bold rounded-full w-12 h-12 flex items-center justify-center text-lg shadow-lg">
+              <div className="absolute top-4 left-4 bg-loteria-orange text-white font-bold rounded-full w-16 h-16 flex items-center justify-center text-2xl shadow-lg pacifico-font z-50">
                 {selectedCardData.id}
               </div>
 
               {/* Card Content */}
               <div className="flex flex-col items-center mt-8">
-                <img
-                  src={selectedCardData.image}
-                  alt={selectedCardData.title}
-                  className="w-64 rounded-lg shadow-lg mb-4"
+                <LoteriaCard
+                  card={selectedCardData}
+                  showName={false}
+                  showNumber={false}
                 />
                 <h2 className="text-3xl font-bold text-loteria-blue mb-4">
                   {selectedCardData.title}

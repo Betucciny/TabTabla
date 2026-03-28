@@ -10,10 +10,11 @@ import { useEffect, useState } from "react";
 import { createGame, getGame, joinGame } from "~/.server/game";
 import { commitSessionCookie, getSessionCookie } from "~/.server/cookies";
 import { PapelPicadoBackground } from "~/components/PapelPicadoBackground";
+import { PageNavigation } from "~/components/PageNavigation";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "TabTabla Lotería" },
+    { title: "TabTabla® Lotería" },
     { name: "description", content: "Juego de Lotería" },
   ];
 }
@@ -125,7 +126,7 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
           className="mb-8 animate-fade-in-down text-6xl font-bold
                    [text-shadow:_2px_2px_4px_rgb(0_0_0_/_40%)]"
         >
-          TabTabla Lotería
+          TabTabla® Lotería
         </h1>
 
         <div
@@ -244,31 +245,36 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
               </p>
             )}
           </div>
-          <div className="flex items-center justify-center flex-col rounded-lg border border-gray-200 bg-gray-50 p-4 text-loteria-blue">
-            <h3 className="mb-4 text-center text-2xl font-bold ">About</h3>
-            <Link
-              to="/gallery"
-              className="hover:text-loteria-orange underline mx-2"
-            >
-              Card Gallery
-            </Link>
-            &bull;
-            <Link
-              to="/about"
-              className="hover:text-loteria-orange underline mx-2"
-            >
-              How to Play
-            </Link>
-            &bull;
-            <a
-              href="https://www.paypal.me/betucciny"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-loteria-orange  underline mx-2"
-            >
-              Buy Me a Coffee
-            </a>
-            <p className="mt-2">
+          <div className="flex items-center justify-center flex-col rounded-lg border border-gray-200 bg-gray-50 p-6 text-loteria-blue">
+            <div className="flex flex-col items-center gap-3">
+              <Link
+                to="/how-to-play"
+                className="text-lg font-semibold text-loteria-orange hover:underline"
+              >
+                How to Play
+              </Link>
+              <Link
+                to="/about"
+                className="text-lg font-semibold text-loteria-orange hover:underline"
+              >
+                About
+              </Link>
+              <Link
+                to="/gallery"
+                className="text-lg font-semibold text-loteria-orange hover:underline"
+              >
+                Card Gallery
+              </Link>
+            </div>
+            <div className="mt-4 pt-4 border-t border-gray-300 w-full text-center">
+              <Link
+                to="/support"
+                className="hover:text-loteria-orange underline mx-2 text-lg font-semibold"
+              >
+                Support the Project
+              </Link>
+            </div>
+            <p className="mt-4">
               A Game by Roberto Ángel Herrera Rodríguez <br />
               Inspired by Fernando Efrain Guzman Amaya <br />
               Images by Mauro Julio Lunari

@@ -57,10 +57,11 @@ export default function PlayerView({
   )?.playerTabla!!;
   useEffect(() => {
     setSelectedTabla(
-      playerTabla.map(
-        (card) =>
-          ALL_CARDS_MAP.find((card_complete) => card_complete.title === card)!!,
-      ),
+      playerTabla
+        .map((card) =>
+          ALL_CARDS_MAP.find((card_complete) => card_complete.title === card),
+        )
+        .filter((card) => card !== null && card !== undefined) as Tabla,
     );
   }, [playerTabla]);
 

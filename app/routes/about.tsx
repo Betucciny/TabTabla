@@ -1,9 +1,10 @@
 import { Link } from "react-router";
 import { PapelPicadoBackground } from "~/components/PapelPicadoBackground";
+import { PageNavigation } from "~/components/PageNavigation";
 import type { Route } from "./+types/about";
 export function meta({ params }: Route.MetaArgs) {
   return [
-    { title: `TabTabla Lotería - About` },
+    { title: `TabTabla® Lotería - About` },
     { name: "description", content: `Juego de Lotería | About` },
   ];
 }
@@ -38,85 +39,48 @@ export default function About() {
             </p>
           </section>
 
-          {/* How to Play Section */}
+          {/* Cultural Breviary Section */}
           <section className="mt-12">
             <h2 className="mb-4 border-b-2 border-white/20 pb-2 text-3xl font-bold">
-              How to Play
+              Cultural Breviary
             </h2>
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-xl font-semibold">For the Host:</h3>
-                <ol className="mt-2 list-inside list-decimal space-y-2 text-lg ">
-                  <li>
-                    Click "Create Game" on the home page to start a new lobby.
-                  </li>
-                  <li>Share the 4-letter Game Code with your friends.</li>
-                  <li>
-                    Once everyone has joined and chosen their tabla, click
-                    "Start Game".
-                  </li>
-                  <li>
-                    Click "Draw Card" to reveal a new card to all players.
-                  </li>
-                  <li>
-                    Keep drawing until someone wins! The game will reset for the
-                    next round.
-                  </li>
-                </ol>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold">For Players:</h3>
-                <ol className="mt-2 list-inside list-decimal space-y-2 text-lg ">
-                  <li>
-                    Enter the 4-letter Game Code from the host and click "Join
-                    Game".
-                  </li>
-                  <li>Choose your tabla (game board).</li>
-                  <li>
-                    Pay attention as the host draws cards! Tap the matching card
-                    on your board to mark it.
-                  </li>
-                  <li>
-                    When you've marked all 16 cards on your board, quickly tap
-                    the big "¡LOTERÍA!" button.
-                  </li>
-                  <li>
-                    If you make a false call, you'll be out for the rest of the
-                    round, so be sure!
-                  </li>
-                </ol>
-              </div>
+            <div className="space-y-4 text-lg leading-relaxed">
+              <p>
+                <strong>Mexican lotería:</strong> 54 cards that arrived with the
+                Spanish (18th century), but Mexico gave it soul with cheeky
+                verses, indigenous art, and popular humor.
+              </p>
+              <p>
+                Since 1887, grandmas chant the verses, kids mark with beans,
+                parents yell "¡Lotería!", and friends party hard!
+              </p>
+              <p>
+                A living tradition that brings everyone together —no matter age,
+                gender, or where you're from.
+              </p>
             </div>
           </section>
 
           <section className="mt-12 text-center">
             <h2 className="mb-4 border-b-2 border-white/20 pb-2 text-3xl font-bold">
-              Enjoying the Game?
+              The Team
             </h2>
-            <p className="mx-auto max-w-xl text-lg leading-relaxed ">
-              This project is free to use and was built with love. If you're
-              having fun and want to show your support, you can buy me a virtual
-              coffee. It helps cover server costs and encourages future updates!
-            </p>
-            <div className="flex flex-col space-y-2 items-center">
-              <a
-                href="https://www.paypal.me/betucciny"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center gap-3 rounded-lg bg-loteria-orange px-8 py-4 text-xl font-bold text-white shadow-lg transition hover:scale-105 hover:bg-orange-500"
-              >
-                {/* Coffee Cup Icon */}
-                Love TabTabla Loteria?
-                <br />
-                Help to keep it alive!
-              </a>
+            <div className="space-y-4">
+              <p className="text-lg">
+                <strong>Developer:</strong> Roberto Ángel Herrera Rodríguez
+              </p>
+              <p className="text-lg">
+                <strong>Inspired by:</strong> Fernando Efrain Guzman Amaya
+              </p>
+              <p className="text-lg">
+                <strong>Card Images:</strong> Mauro Julio Lunari
+              </p>
               <a
                 href="https://www.github.com/betucciny"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex items-center gap-3 rounded-lg bg-loteria-orange px-8 py-4 text-xl font-bold text-white shadow-lg transition hover:scale-105 hover:bg-orange-500"
               >
-                {/* GitHub Icon */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-7 w-7"
@@ -129,25 +93,13 @@ export default function About() {
                     clipRule="evenodd"
                   />
                 </svg>
-                Meet the creator: GitHub
+                Visit on GitHub
               </a>
-              <p className="mt-2">
-                A Game by Roberto Ángel Herrera Rodríguez <br />
-                Inspired by Fernando Efrain Guzman Amaya <br />
-                Images by Mauro Julio Lunari
-              </p>
             </div>
           </section>
 
-          {/* Back to Home Link */}
-          <div className="mt-16 text-center">
-            <Link
-              to="/"
-              className="text-lg font-semibold text-loteria-orange hover:underline"
-            >
-              &larr; Back to Home
-            </Link>
-          </div>
+          {/* Navigation */}
+          <PageNavigation currentPage="about" />
         </div>
       </div>
     </>
