@@ -146,7 +146,7 @@ export default function Support() {
               Every contribution, big or small, is deeply appreciated!
             </p>
             <a
-              href="https://www.paypal.me/betucciny"
+              href="https://www.paypal.me/ferguzmxkr"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-loteria-orange hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-200 text-lg"
