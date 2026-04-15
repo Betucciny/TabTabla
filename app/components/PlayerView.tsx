@@ -12,6 +12,7 @@ import CodeShowcase from "./CodeShowcase";
 import { useNavigate } from "react-router";
 import { ConfirmModal } from "./ConfirmModals";
 import { SoundToggle } from "./SoundToggle";
+import Footer from "./Footer";
 
 export interface PlayerViewProps {
   gameState: GameState;
@@ -170,7 +171,7 @@ export default function PlayerView({
       >
         <p>Are you sure you want to leave the game?</p>
       </ConfirmModal>
-      <div className="bg-loteria-blue-light text-white min-h-screen flex justify-center items-center z-50">
+      <div className="bg-loteria-blue-light text-white min-h-screen flex justify-center items-center z-50 flex-col pb-10">
         <div className="flex flex-col max-w-[1200px] lg:max-h-[990px] z-10 bg-loteria-blue shadow-lg rounded-xl md:px-5 bg-opacity-50">
           <div className="flex flex-col gap-4 bg-loteria-blue p-4 shadow-lg z-50">
             <div className="flex items-center justify-between bg-white/10 p-2 rounded-lg">
@@ -265,6 +266,7 @@ export default function PlayerView({
             </aside>
           </main>
         </div>
+        <Footer small />
       </div>
       <WinnerModal
         isOpen={showWinnerModal}
