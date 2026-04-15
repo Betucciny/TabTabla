@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { PapelPicadoBackground } from "~/components/PapelPicadoBackground";
 import { PageNavigation } from "~/components/PageNavigation";
 import type { Route } from "./+types/about";
+import Footer from "~/components/Footer";
 
 export function meta({ params }: Route.MetaArgs) {
   return [
@@ -70,7 +71,7 @@ export default function About() {
     <>
       <PapelPicadoBackground position="top" />
       <PapelPicadoBackground position="bottom" />
-      <div className="flex bg-loteria-blue">
+      <div className="flex min-h-screen flex-col items-center justify-center p-10 text-white bg-loteria-blue ">
         <div className=" mx-auto max-w-3xl p-8 rounded-lg shadow-lg my-10 text-loteria-blue bg-white">
           <header className="text-center">
             <h1 className="text-4xl font-black tracking-wide  md:text-5xl">
@@ -173,6 +174,7 @@ export default function About() {
           {/* Navigation */}
           <PageNavigation currentPage="about" />
         </div>
+        <Footer />
       </div>
     </>
   );

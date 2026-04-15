@@ -170,7 +170,7 @@ export default function PlayerView({
       >
         <p>Are you sure you want to leave the game?</p>
       </ConfirmModal>
-      <div className="bg-loteria-blue-light text-white min-h-screen flex justify-center items-center">
+      <div className="bg-loteria-blue-light text-white min-h-screen flex justify-center items-center z-50">
         <div className="flex flex-col max-w-[1200px] lg:max-h-[990px] z-10 bg-loteria-blue shadow-lg rounded-xl md:px-5 bg-opacity-50">
           <div className="flex flex-col gap-4 bg-loteria-blue p-4 shadow-lg z-50">
             <div className="flex items-center justify-between bg-white/10 p-2 rounded-lg">

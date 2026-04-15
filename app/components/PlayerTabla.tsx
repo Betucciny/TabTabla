@@ -124,7 +124,7 @@ export default function LoteriaCard({
   return (
     <div
       onClick={onClick}
-      className={`z-10 relative cursor-pointer rounded-lg border-2 border-white bg-white p-1 shadow-md transition-transform duration-200 hover:scale-105 h-auto`}
+      className={`z-0 relative cursor-pointer rounded-lg border-2 border-white bg-white p-1 shadow-md transition-transform duration-200 hover:scale-105 h-auto`}
     >
       <img
         src={card.image}

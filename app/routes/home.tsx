@@ -11,6 +11,7 @@ import { createGame, getGame, joinGame } from "~/.server/game";
 import { commitSessionCookie, getSessionCookie } from "~/.server/cookies";
 import { PapelPicadoBackground } from "~/components/PapelPicadoBackground";
 import { PageNavigation } from "~/components/PageNavigation";
+import Footer from "~/components/Footer";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -121,7 +122,7 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
     <>
       <PapelPicadoBackground position="top" />
       <PapelPicadoBackground position="bottom" />
-      <div className="flex min-h-screen flex-col items-center justify-center p-4 text-white bg-loteria-blue my-5 md:my-0">
+      <div className="flex min-h-screen flex-col items-center justify-center p-10 text-white bg-loteria-blue ">
         <h1
           className="mb-8 animate-fade-in-down text-6xl font-bold
                    [text-shadow:_2px_2px_4px_rgb(0_0_0_/_40%)]"
@@ -284,6 +285,7 @@ export default function LandingPage({ actionData }: Route.ComponentProps) {
             </p>
           </div>
         </div>
+        <Footer />
       </div>
     </>
   );

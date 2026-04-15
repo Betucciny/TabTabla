@@ -5,6 +5,7 @@ import { PapelPicadoBackground } from "~/components/PapelPicadoBackground";
 import { PageNavigation } from "~/components/PageNavigation";
 import { useEffect, useState } from "react";
 import LoteriaCard from "~/components/PlayerTabla";
+import Footer from "~/components/Footer";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -45,7 +46,7 @@ export default function GalleryPage() {
     <>
       <PapelPicadoBackground position="top" />
       <PapelPicadoBackground position="bottom" />
-      <div className="min-h-screen bg-loteria-blue text-white py-10 px-4">
+      <div className="flex min-h-screen flex-col items-center justify-center p-10 text-white bg-loteria-blue">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-10">
@@ -116,7 +117,7 @@ export default function GalleryPage() {
               </div>
 
               {/* Card Content */}
-              <div className="flex flex-col items-center mt-8">
+              <div className="flex flex-col items-center mt-8 z-0">
                 <LoteriaCard
                   card={selectedCardData}
                   showName={false}
@@ -139,6 +140,7 @@ export default function GalleryPage() {
             </div>
           </div>
         )}
+        <Footer />
       </div>
     </>
   );
