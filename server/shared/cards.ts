@@ -161,7 +161,7 @@ export const ALL_CARDS_MAP: Card[] = [
   {
     id: 25,
     title: "El Borracho",
-    sentences: ["Tropezando en la banqueta con la chela en la mano."],
+    sentences: ["Tropezando en la banqueta con el mezcal en la mano."],
     image: "/images/25.jpg",
   },
   {
