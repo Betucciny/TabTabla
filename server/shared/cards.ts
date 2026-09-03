@@ -51,7 +51,7 @@ export const ALL_CARDS_MAP: Card[] = [
   {
     id: 7,
     title: "La Escalera",
-    sentences: ["Sube paso a pacito y con cuidado."],
+    sentences: ["Sube paso a pasito y con cuidado."],
     image: "/images/7.jpg",
   },
   {
@@ -116,7 +116,7 @@ export const ALL_CARDS_MAP: Card[] = [
   },
   {
     id: 18,
-    title: "El Violín",
+    title: "El Violoncello",
     sentences: ["De madera fina y alma de poeta que enamora."],
     image: "/images/18.jpg",
   },
